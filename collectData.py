@@ -18,7 +18,7 @@ headers = {
 
 def get_data_day(data):
     url = f"https://es-ds.enetscores.com/4.571/FWB14705F6C8937012/live-en-livescore-daily-1-{data}-p0100-cid_0"
-    response = requests(url, headers=headers)
+    response = requests.get(url, headers=headers)
 
     return json.loads(response.json()["content"])
 
@@ -33,6 +33,6 @@ if __name__ == '__main__':
     with open('giorno.json', 'w') as f:
         json.dump(x, f)
 
-    x = get_data_day("3657129")
+    x = get_data_match("3657129")
     with open('partita.json', 'w') as f:
         json.dump(x, f)
