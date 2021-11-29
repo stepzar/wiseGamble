@@ -25,29 +25,23 @@ proxies={
     }
 
 def get_data_day(data):
-    url = f"https://it.whoscored.com/matchesfeed/?d={data}"
-    response = requests.get(url, headers=headers, proxies=proxies)
+    url = f"https://api.sofascore.com/api/v1/sport/football/scheduled-events/{data}" # yyyy-mm-dd
+    response = requests.get(url, proxies=proxies)
 
-    return ast.literal_eval(response.text.replace(",,,",",").replace(",,",","))[2]
+    return response.json()
 
 
 def get_data_match(id):
     url = f"https://it.whoscored.com/Matches/{id}"
-    response = requests.get(url, headers=headers)
+    response = requests.get(url, headers=headers, proxies=proxies)
 
     return response.text
 
 def get_match_object(html):
-    print(html)
     soup = BeautifulSoup(html, "lxml")
-    home = soup.find("span", {"class":"col12-lg-4 col12-m-4 col12-s-0 col12-xs-0 home team"}).text
-    print(home)
+    home = soup.find_all("span", {"class":"col12-lg-4 col12-m-4 col12-s-2 col12-xs-0 result"})
+    return home
 
 if __name__ == '__main__':
-    """matches = get_data_day("20211128")
-    for match in matches:"""
-
-    html = get_data_match("1575905")
-    get_match_object(html)
-
+    print(get_data_day("2019-10-07"))
 
