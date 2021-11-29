@@ -30,5 +30,9 @@ def get_data_match(id):
 
 if __name__ == '__main__':
     x = get_data_day("20211128")
-    with open('data.json', 'w') as f:
+    with open('giorno.json', 'w') as f:
+        json.dump(x, f)
+
+    x = get_data_day("3657129")
+    with open('partita.json', 'w') as f:
         json.dump(x, f)
