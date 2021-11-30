@@ -49,9 +49,11 @@ def get_data_match(id):
     url_managers = f"https://api.sofascore.com/api/v1/event/{id}/managers"
     event = requests.get(url_event, headers=headers).json()["event"]
     statistics = requests.get(url_statistics, headers=headers).json()["statistics"]
+    lineups = requests.get(url_lineups, headers=headers).json()
 
     print(id)
     match = get_match_object(event, statistics)
+    match_lineups = get_match_lineups(lineups)
     good_matches.append(match)
 
 def get_match_object(event, statistics):
@@ -82,9 +84,63 @@ def get_match_object(event, statistics):
             for item in group["statisticsItems"]:
                 match[f"{stat['period']}_{item['name']}_home".replace(" ", "_").lower()] = item["home"]
                 match[f"{stat['period']}_{item['name']}_away".replace(" ", "_").lower()] = item["away"]
-                print(item)
+                #print(item)
 
     return match
+
+def get_match_lineups(lineups):
+    match_lineups = {}
+
+    #lineups (formation, modul, players unavailable, players statistics match)
+
+    #home lineups
+    home = lineups["home"]
+    players_home = home["players"]
+    i = 0
+    for player in players_home:
+        match_lineups[f"id_player{i}_home"] = player["player"]["id"]
+        match_lineups[f"name_player{i}_home"] = player["player"]["name"]
+        match_lineups[f"position_player{i}_home"] = player["position"]
+        match_lineups[f"shirtNumber_player{i}_home"] = player["shirtNumber"]
+        match_lineups[f"position_player{i}_home"] = player["position"]
+        i = i+1
+        #the scraping of the "statistics" array is missing
+        #"statistics" array is empty for players who have NOT played
+    match_lineups["formation_module_home"] = home["formation"]
+    missing_players_home = home["missingPlayers"]
+    i = 0
+    for player in missing_players_home:
+        match_lineups[f"type_player_missing{i}_home"] = player["type"]
+        match_lineups[f"id_player_missing{i}_home"] = player["player"]["id"]
+        match_lineups[f"name_player_missing{i}_home"] = player["player"]["name"]
+        match_lineups[f"position_player_missing{i}_home"] = player["player"]["position"]
+        i = i + 1
+
+    #away lineups
+    away = lineups["away"]
+    players_away = away["players"]
+    i = 0
+    for player in players_away:
+        match_lineups[f"id_player{i}_away"] = player["player"]["id"]
+        match_lineups[f"name_player{i}_away"] = player["player"]["name"]
+        match_lineups[f"position_player{i}_away"] = player["position"]
+        match_lineups[f"shirtNumber_player{i}_away"] = player["shirtNumber"]
+        match_lineups[f"position_player{i}_away"] = player["position"]
+        i = i+1
+        # the scraping of the "statistics" array is missing
+        # "statistics" array is empty for players who have NOT played
+    match_lineups["formation_module_away"] = home["formation"]
+    missing_players_away = away["missingPlayers"]
+    i = 0
+    for player in missing_players_away:
+        match_lineups[f"type_player_missing{i}_away"] = player["type"]
+        match_lineups[f"id_player_missing{i}_away"] = player["player"]["id"]
+        match_lineups[f"name_player_missing{i}_away"] = player["player"]["name"]
+        match_lineups[f"position_player_missing{i}_away"] = player["player"]["position"]
+        i = i + 1
+
+    print(match_lineups)
+    return match_lineups
 
 def get_all_data_matches_of_day(matches):
     threads = []
