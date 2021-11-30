@@ -3,9 +3,7 @@ import grequests, requests
 import pandas as pd
 from datetime import timedelta, datetime
 import threading
-
 good_matches = []
-
 headers = {
   'authority': 'api.sofascore.com',
   'cache-control': 'max-age=0',
@@ -22,50 +20,36 @@ headers = {
   'accept-language': 'it-IT,it;q=0.9,en-US;q=0.8,en;q=0.7',
   'if-none-match': 'W/"1eef0d3048"'
 }
-
 proxies={
         "http": "http://srcfqjix-rotate:cs09qwhxss11@p.webshare.io:80/",
         "https": "http://srcfqjix-rotate:cs09qwhxss11@p.webshare.io:80/"
     }
-
-
-
 def get_data_day(date):
     """
     return a json object containing all the matches in "date" day
     """
-
     url = f"https://api.sofascore.com/api/v1/sport/football/scheduled-events/{date}" # yyyy-mm-dd
-    response = requests.get(url, proxies=proxies, headers=headers)
+    response = requests.get(url, headers=headers)
     print(response)
-    print(response.text)
     return response.json()
-
 def get_data_match(id):
     """
     return a json object containing all the statistics of a match, given its id
     """
-
     url_event = f"https://api.sofascore.com/api/v1/event/{id}"                  #0
     url_statistics = f"https://api.sofascore.com/api/v1/event/{id}/statistics"  #1
     url_lineups = f"https://api.sofascore.com/api/v1/event/{id}/lineups"        #2
     url_votes = f"https://api.sofascore.com/api/v1/event/{id}/votes"            #3
     url_form = f"https://api.sofascore.com/api/v1/event/{id}/pregame-form"      #4
     url_managers = f"https://api.sofascore.com/api/v1/event/{id}/managers"      #5
+    event = requests.get(url_event, headers=headers).json()
+    statistics = requests.get(url_statistics, headers=headers).json()["statistics"]
 
-    urls = [url_event, url_statistics]
-
-    requests = (grequests.get(url, proxies=proxies, headers=headers) for url in urls)
-    responses = grequests.map(requests)
-    print(responses[0])
-
-    event = responses[0].json()
-    statistics = responses[1].json()
-
+    print(id)
     match = {
         # event
         "tournament-name": event["event"]["tournament"]["name"],
-        "country": event["event"]["tournament"]["name"],
+        "country": event["event"]["tournament"]["category"]["name"],
         "round": event["event"]["roundInfo"]["round"],
         "city": event["event"]["venue"]["city"]["name"],
         "stadium": event["event"]["venue"]["stadium"]["name"],
@@ -81,7 +65,6 @@ def get_data_match(id):
         "hasGlobalHighlights": event["event"]["hasGlobalHighlights"],
         "hasEventPlayerStatistics": event["event"]["hasEventPlayerStatistics"],
         "hasEventPlayerHeatMap": event["event"]["hasEventPlayerHeatMap"],
-
         #statistics total
         "home_ball_possession": statistics[0]["groups"][0]["statisticsItems"][0]["home"],
         "away_ball_possession": statistics[0]["groups"][0]["statisticsItems"][0]["away"],
@@ -135,7 +118,6 @@ def get_data_match(id):
         "away_interceptions": statistics[0]["groups"][6]["statisticsItems"][1]["away"],
         "home_clearances": statistics[0]["groups"][6]["statisticsItems"][2]["home"],
         "away_clearances": statistics[0]["groups"][6]["statisticsItems"][2]["away"],
-
         #statistics 1 time
         "1ST_home_ball_possession": statistics[1]["groups"][0]["statisticsItems"][0]["home"],
         "1ST_away_ball_possession": statistics[1]["groups"][0]["statisticsItems"][0]["away"],
@@ -187,7 +169,6 @@ def get_data_match(id):
         "1ST_away_interceptions": statistics[1]["groups"][6]["statisticsItems"][1]["away"],
         "1ST_home_clearances": statistics[1]["groups"][6]["statisticsItems"][2]["home"],
         "1ST_away_clearances": statistics[1]["groups"][6]["statisticsItems"][2]["away"],
-
         # statistics 2 time
         "2ND_home_ball_possession": statistics[2]["groups"][0]["statisticsItems"][0]["home"],
         "2ND_away_ball_possession": statistics[2]["groups"][0]["statisticsItems"][0]["away"],
@@ -240,23 +221,20 @@ def get_data_match(id):
         "2ND_home_clearances": statistics[2]["groups"][6]["statisticsItems"][2]["home"],
         "2ND_away_clearances": statistics[2]["groups"][6]["statisticsItems"][2]["away"],
     }
-    good_matches.append(match)
-    print(match)
 
+    good_matches.append(match)
 def get_all_data_matches_of_day(matches):
     threads = []
-    for match in matches:
+    for match in matches[:10]:
         t = threading.Thread(target=get_data_match, args=(match["id"],))
         t.start()
         threads.append(t)
-
     map(lambda t: t.join(), threads)
     while threads[-1].is_alive():
         #wait
         time.sleep(0.2)
-
 if __name__ == '__main__':
-    startDate = datetime(2020,10,10)
+    """startDate = datetime(2020,10,10)
     endDate = datetime(2020,10,11)
     dates = pd.date_range(startDate, endDate - timedelta(days=1), freq='d')
     for date in dates:
@@ -268,8 +246,9 @@ if __name__ == '__main__':
             except Exception as E:
                 print(E)
                 print("Errore proxy")
-
         get_all_data_matches_of_day(matches["events"])
-
+    df = pd.DataFrame(good_matches)
+    df.to_csv("data.csv")"""
+    get_data_match(9645192)
     df = pd.DataFrame(good_matches)
     df.to_csv("data.csv")
