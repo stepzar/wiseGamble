@@ -6,6 +6,26 @@ import threading
 
 good_matches = []
 
+"""
+UEFA Champions League
+UEFA Europa League
+Premier League
+LaLiga
+Bundesliga
+Serie A
+Ligue 1
+Eredivise
+Premiership (scozia)
+Serie B
+Pro League (belgio)
+Superliga (danimarca)
+Championship
+Eliteserien
+Lech pozann (polonia)
+"""
+
+top_tournament = [7,679,17,8,35,23,34,37,36,53,38,39,18,20,3121]
+
 headers = {
   'authority': 'api.sofascore.com',
   'cache-control': 'max-age=0',
@@ -34,7 +54,6 @@ def get_data_day(date):
     """
     url = f"https://api.sofascore.com/api/v1/sport/football/scheduled-events/{date}" # yyyy-mm-dd
     response = requests.get(url, headers=headers)
-    print(response)
     return response.json()
 
 def get_data_match(id):
@@ -47,25 +66,36 @@ def get_data_match(id):
     url_votes = f"https://api.sofascore.com/api/v1/event/{id}/votes"
     url_form = f"https://api.sofascore.com/api/v1/event/{id}/pregame-form"
     url_managers = f"https://api.sofascore.com/api/v1/event/{id}/managers"
-    event = requests.get(url_event, headers=headers).json()["event"]
-    statistics = requests.get(url_statistics, headers=headers).json()["statistics"]
-    lineups = requests.get(url_lineups, headers=headers).json()
 
-    print(id)
-    match = get_match_object(event, statistics)
-    match_lineups = get_match_lineups(lineups)
-    good_matches.append(match)
+    try:
+        event = requests.get(url_event, headers=headers).json()["event"]
+        statistics = requests.get(url_statistics, headers=headers).json()["statistics"]
+        #lineups = requests.get(url_lineups, headers=headers).json()
+        votes = requests.get(url_votes, headers=headers).json()["vote"]
+        form = requests.get(url_form, headers=headers).json()
+        managers = requests.get(url_managers, headers=headers).json()
 
-def get_match_object(event, statistics):
+        match = get_match_object(event, statistics, votes, form, managers)
+        good_matches.append(match)
+    except Exception as e:
+        print([id, e])
+
+
+
+def get_match_object(event, statistics, votes, form, managers):
     match = {}
 
     # event
+    match["timestamp"] = event["startTimestamp"]
     match["tournament_name"] = event["tournament"]["name"],
     match["country"] = event["tournament"]["category"]["name"],
     match["round"] = event["roundInfo"]["round"],
     match["city"] = event["venue"]["city"]["name"],
     match["stadium"] = event["venue"]["stadium"]["name"],
-    match["referee"] = event["referee"]["name"],
+    try:
+        match["referee"] = event["referee"]["name"],
+    except:
+        match["referee"] = None,
     match["homeTeam"] = event["homeTeam"]["name"],
     match["homeTeam_id"] = event["homeTeam"]["id"],
     match["awayTeam"] = event["awayTeam"]["name"],
@@ -85,6 +115,27 @@ def get_match_object(event, statistics):
                 match[f"{stat['period']}_{item['name']}_home".replace(" ", "_").lower()] = item["home"]
                 match[f"{stat['period']}_{item['name']}_away".replace(" ", "_").lower()] = item["away"]
                 #print(item)
+
+    # votes
+    match["people_vote_1"] = votes['vote1']
+    match["people_vote_x"] = votes['voteX']
+    match["people_vote_2"] = votes['vote2']
+
+    # form
+    match["homeTeam_avgRating"] = form["homeTeam"]["avgRating"]
+    match["homeTeam_position"] = form["homeTeam"]["position"]
+    match["homeTeam_pts"] = form["homeTeam"]["value"]
+    match["homeTeam_form"] = form["homeTeam"]["form"]
+    match["homeTeam_avgRating"] = form["homeTeam"]["avgRating"]
+    match["homeTeam_position"] = form["homeTeam"]["position"]
+    match["homeTeam_pts"] = form["homeTeam"]["value"]
+    match["homeTeam_form"] = form["homeTeam"]["form"]
+
+    # managers
+    match["name_manager_home"] = managers["homeManager"]["name"]
+    match["id_manager_home"] = managers["homeManager"]["id"]
+    match["name_manager_away"] = managers["awayManager"]["name"]
+    match["id_manager_away"] = managers["awayManager"]["id"]
 
     return match
 
@@ -154,24 +205,20 @@ def get_all_data_matches_of_day(matches):
         time.sleep(0.2)
 
 if __name__ == '__main__':
-    """
-    startDate = datetime(2020,10,10)
-    endDate = datetime(2020,10,11)
+    startDate = datetime(2020,10,25)
+    endDate = datetime(2020,10,31)
     dates = pd.date_range(startDate, endDate - timedelta(days=1), freq='d')
     for date in dates:
+        print(date)
         date = date.strftime("%Y-%m-%d")
-        while True:
+        matches = get_data_day(date)
+        for match in matches["events"]:
+            # check if the match is in a tournament
             try:
-                matches = get_data_day(date)
-                break
-            except Exception as E:
-                print(E)
-                print("Errore proxy")
-        get_all_data_matches_of_day(matches["events"])
-    df = pd.DataFrame(good_matches)
-    df.to_csv("data.csv")
-    """
+                if match["tournament"]["uniqueTournament"]["id"] in top_tournament:
+                    get_data_match(match["id"])
+            except Exception as e:
+                print([match["id"], e])
 
-    get_data_match(9645192)
-    df = pd.DataFrame(good_matches)
-    df.to_csv("data.csv")
+        df = pd.DataFrame(good_matches)
+        df.to_csv(f"{date}.csv")
