@@ -66,6 +66,7 @@ def get_data_match(id):
     url_votes = f"https://api.sofascore.com/api/v1/event/{id}/votes"
     url_form = f"https://api.sofascore.com/api/v1/event/{id}/pregame-form"
     url_managers = f"https://api.sofascore.com/api/v1/event/{id}/managers"
+    url_incidents = f"https://api.sofascore.com/api/v1/event/{id}/incidents"
 
     try:
         event = requests.get(url_event, headers=headers).json()["event"]
@@ -77,7 +78,11 @@ def get_data_match(id):
     except:
         statistics = None
 
-    #lineups = requests.get(url_lineups, headers=headers).json()
+    try:
+        lineups = requests.get(url_lineups, headers=headers).json()
+    except:
+        lineups = None
+
     try:
         votes = requests.get(url_votes, headers=headers).json()["vote"]
     except:
@@ -93,10 +98,15 @@ def get_data_match(id):
     except:
         managers = None
 
-    match = get_match_object(event, statistics, votes, form, managers)
+    try:
+        incidents = requests.get(url_incidents, headers=headers).json()["incidents"]
+    except:
+        incidents = None
+
+    match = get_match_object(event, statistics, votes, form, managers, lineups, incidents)
     good_matches.append(match)
 
-def get_match_object(event, statistics, votes, form, managers):
+def get_match_object(event, statistics, votes, form, managers, lineups, incidents):
     match = {}
 
     # event
@@ -314,61 +324,59 @@ def get_match_object(event, statistics, votes, form, managers):
         print(e)
         match["id_manager_away"] = None
 
+    # lineups
+
+    players = []
+    for team in ["home", "away"]:
+        players.append({f"{team}_formation": lineups[team]["formation"]})
+        cont = 0
+        for player in lineups[team]["players"]:
+            try:
+                if player["statistics"]:
+                    cont += 1
+                    players.append({f"{team}Player_{cont}_id": player["player"]["id"]})
+                    players.append({f"{team}Player_{cont}_name": player["player"]["name"]})
+                    players.append({f"{team}Player_{cont}_position": player["player"]["position"]})
+                    for stat in player["statistics"]:
+                        players.append({f"{team}Player_{cont}_{stat}": player["statistics"][stat]})
+            except:
+                print("ERROR PLAYER STATISTICS LINEUPS")
+                continue
+
+        cont = 0
+        try:
+            for player in lineups[team]["missingPlayers"]:
+                try:
+                    cont += 1
+                    players.append({f"{team}MissingPlayer_{cont}_type": player["type"]})
+                    players.append({f"{team}MissingPlayer_{cont}_id": player["player"]["id"]})
+                    players.append({f"{team}MissingPlayer_{cont}_name": player["player"]["name"]})
+                    players.append({f"{team}MissingPlayer_{cont}_position": player["player"]["position"]})
+                except:
+                    print("ERROR PLAYER STATISTICS LINEUPS")
+                    continue
+        except:
+            print("NO MISSING PLAYERS")
+
+    for x in players:
+        key = list(x.keys())[0]
+        value = x[key]
+        match[key] = value
+
+    # incidents
+    match["penalty"] = 0
+    match["varDecision"] = 0
+
+    for incident in incidents:
+        try:
+            if incident["incidentClass"] == "penalty":
+                match["penalty"] += 1
+        except:
+            pass
+        if incident["incidentType"] == "varDecision":
+            match["varDecision"] += 1
+
     return match
-
-def get_match_lineups(lineups):
-    match_lineups = {}
-
-    #lineups (formation, modul, players unavailable, players statistics match)
-
-    #home lineups
-    home = lineups["home"]
-    players_home = home["players"]
-    i = 0
-    for player in players_home:
-        match_lineups[f"id_player{i}_home"] = player["player"]["id"]
-        match_lineups[f"name_player{i}_home"] = player["player"]["name"]
-        match_lineups[f"position_player{i}_home"] = player["position"]
-        match_lineups[f"shirtNumber_player{i}_home"] = player["shirtNumber"]
-        match_lineups[f"position_player{i}_home"] = player["position"]
-        i = i+1
-        #the scraping of the "statistics" array is missing
-        #"statistics" array is empty for players who have NOT played
-    match_lineups["formation_module_home"] = home["formation"]
-    missing_players_home = home["missingPlayers"]
-    i = 0
-    for player in missing_players_home:
-        match_lineups[f"type_player_missing{i}_home"] = player["type"]
-        match_lineups[f"id_player_missing{i}_home"] = player["player"]["id"]
-        match_lineups[f"name_player_missing{i}_home"] = player["player"]["name"]
-        match_lineups[f"position_player_missing{i}_home"] = player["player"]["position"]
-        i = i + 1
-
-    #away lineups
-    away = lineups["away"]
-    players_away = away["players"]
-    i = 0
-    for player in players_away:
-        match_lineups[f"id_player{i}_away"] = player["player"]["id"]
-        match_lineups[f"name_player{i}_away"] = player["player"]["name"]
-        match_lineups[f"position_player{i}_away"] = player["position"]
-        match_lineups[f"shirtNumber_player{i}_away"] = player["shirtNumber"]
-        match_lineups[f"position_player{i}_away"] = player["position"]
-        i = i+1
-        # the scraping of the "statistics" array is missing
-        # "statistics" array is empty for players who have NOT played
-    match_lineups["formation_module_away"] = home["formation"]
-    missing_players_away = away["missingPlayers"]
-    i = 0
-    for player in missing_players_away:
-        match_lineups[f"type_player_missing{i}_away"] = player["type"]
-        match_lineups[f"id_player_missing{i}_away"] = player["player"]["id"]
-        match_lineups[f"name_player_missing{i}_away"] = player["player"]["name"]
-        match_lineups[f"position_player_missing{i}_away"] = player["player"]["position"]
-        i = i + 1
-
-    print(match_lineups)
-    return match_lineups
 
 def get_all_data_matches_of_day(matches):
     threads = []
@@ -382,7 +390,7 @@ def get_all_data_matches_of_day(matches):
         time.sleep(0.2)
 
 if __name__ == '__main__':
-    startDate = datetime(2018,3,28)
+    startDate = datetime(2021,12,1)
     endDate = datetime(2021,12,2)
     dates = pd.date_range(startDate, endDate - timedelta(days=1), freq='d')
     for date in dates:
