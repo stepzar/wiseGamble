@@ -69,73 +69,249 @@ def get_data_match(id):
 
     try:
         event = requests.get(url_event, headers=headers).json()["event"]
+    except:
+        event = None
+
+    try:
         statistics = requests.get(url_statistics, headers=headers).json()["statistics"]
-        #lineups = requests.get(url_lineups, headers=headers).json()
+    except:
+        statistics = None
+
+    #lineups = requests.get(url_lineups, headers=headers).json()
+    try:
         votes = requests.get(url_votes, headers=headers).json()["vote"]
+    except:
+        votes = None
+
+    try:
         form = requests.get(url_form, headers=headers).json()
+    except:
+        form = None
+
+    try:
         managers = requests.get(url_managers, headers=headers).json()
+    except:
+        managers = None
 
-        match = get_match_object(event, statistics, votes, form, managers)
-        good_matches.append(match)
-    except Exception as e:
-        print([id, e])
-
-
+    match = get_match_object(event, statistics, votes, form, managers)
+    good_matches.append(match)
 
 def get_match_object(event, statistics, votes, form, managers):
     match = {}
 
     # event
-    match["timestamp"] = event["startTimestamp"]
-    match["tournament_name"] = event["tournament"]["name"],
-    match["country"] = event["tournament"]["category"]["name"],
-    match["round"] = event["roundInfo"]["round"],
-    match["city"] = event["venue"]["city"]["name"],
-    match["stadium"] = event["venue"]["stadium"]["name"],
+    try:
+        match["timestamp"] = event["startTimestamp"],
+    except Exception as e:
+        print(e)
+        match["timestamp"] = None
+
+    try:
+        match["tournament_name"] = event["tournament"]["name"],
+    except Exception as e:
+        print(e)
+        match["tournament_name"] = None
+
+    try:
+        match["country"] = event["tournament"]["category"]["name"],
+    except Exception as e:
+        print(e)
+        match["country"] = None
+
+    try:
+        match["round"] = event["roundInfo"]["round"],
+    except Exception as e:
+        print(e)
+        match["round"] = None
+
+    try:
+        match["city"] = event["venue"]["city"]["name"],
+    except Exception as e:
+        print(e)
+        match["city"] = None
+
+    try:
+        match["stadium"] = event["venue"]["stadium"]["name"],
+    except Exception as e:
+        print(e)
+        match["stadium"] = None
+
     try:
         match["referee"] = event["referee"]["name"],
-    except:
-        match["referee"] = None,
-    match["homeTeam"] = event["homeTeam"]["name"],
-    match["homeTeam_id"] = event["homeTeam"]["id"],
-    match["awayTeam"] = event["awayTeam"]["name"],
-    match["awayTeam_id"] = event["awayTeam"]["id"],
-    match["homeScore_period1"] = event["homeScore"]["period1"],
-    match["homeScore"] = event["homeScore"]["current"],
-    match["awayScore_period1"] = event["awayScore"]["period1"],
-    match["awayScore"] = event["awayScore"]["current"],
-    match["hasGlobalHighlights"] = event["hasGlobalHighlights"],
-    match["hasEventPlayerStatistics"] = event["hasEventPlayerStatistics"],
-    match["hasEventPlayerHeatMap"] = event["hasEventPlayerHeatMap"],
+    except Exception as e:
+        print(e)
+        match["referee"] = None
+
+    try:
+        match["homeTeam"] = event["homeTeam"]["name"],
+    except Exception as e:
+        print(e)
+        match["homeTeam"] = None
+
+    try:
+        match["homeTeam_id"] = event["homeTeam"]["id"],
+    except Exception as e:
+        print(e)
+        match["homeTeam_id"] = None
+
+    try:
+        match["awayTeam"] = event["awayTeam"]["name"],
+    except Exception as e:
+        print(e)
+        match["awayTeam"] = None
+
+    try:
+        match["awayTeam_id"] = event["awayTeam"]["id"],
+    except Exception as e:
+        print(e)
+        match["awayTeam_id"] = None
+
+    try:
+        match["homeScore_period1"] = event["homeScore"]["period1"],
+    except Exception as e:
+        print(e)
+        match["homeScore_period1"] = None
+
+    try:
+        match["homeScore"] = event["homeScore"]["current"],
+    except Exception as e:
+        print(e)
+        match["homeScore"] = None
+
+    try:
+        match["awayScore_period1"] = event["awayScore"]["period1"],
+    except Exception as e:
+        print(e)
+        match["awayScore_period1"] = None
+
+    try:
+        match["awayScore"] = event["awayScore"]["current"],
+    except Exception as e:
+        print(e)
+        match["awayScore"] = None
+
+    try:
+        match["hasGlobalHighlights"] = event["hasGlobalHighlights"],
+    except Exception as e:
+        print(e)
+        match["hasGlobalHighlights"] = None
+
+    try:
+        match["hasEventPlayerStatistics"] = event["hasEventPlayerStatistics"],
+    except Exception as e:
+        print(e)
+        match["hasEventPlayerStatistics"] = None
+
+    try:
+        match["hasEventPlayerHeatMap"] = event["hasEventPlayerHeatMap"],
+    except Exception as e:
+        print(e)
+        match["hasEventPlayerHeatMap"] = None
 
     # statistics
-    for stat in statistics:
-        for group in stat["groups"]:
-            for item in group["statisticsItems"]:
-                match[f"{stat['period']}_{item['name']}_home".replace(" ", "_").lower()] = item["home"]
-                match[f"{stat['period']}_{item['name']}_away".replace(" ", "_").lower()] = item["away"]
-                #print(item)
+    try:
+        for stat in statistics:
+            for group in stat["groups"]:
+                for item in group["statisticsItems"]:
+                    match[f"{stat['period']}_{item['name']}_home".replace(" ", "_").lower()] = item["home"]
+                    match[f"{stat['period']}_{item['name']}_away".replace(" ", "_").lower()] = item["away"]
+                    #print(item)
+    except Exception as e:
+        print(e)
+
 
     # votes
-    match["people_vote_1"] = votes['vote1']
-    match["people_vote_x"] = votes['voteX']
-    match["people_vote_2"] = votes['vote2']
+    try:
+        match["people_vote_1"] = votes['vote1']
+    except Exception as e:
+        print(e)
+        match["people_vote_1"] = None
+
+    try:
+        match["people_vote_x"] = votes['voteX']
+    except Exception as e:
+        print(e)
+        match["people_vote_x"] = None
+
+    try:
+        match["people_vote_2"] = votes['vote2']
+    except Exception as e:
+        print(e)
+        match["people_vote_2"] = None
 
     # form
-    match["homeTeam_avgRating"] = form["homeTeam"]["avgRating"]
-    match["homeTeam_position"] = form["homeTeam"]["position"]
-    match["homeTeam_pts"] = form["homeTeam"]["value"]
-    match["homeTeam_form"] = form["homeTeam"]["form"]
-    match["homeTeam_avgRating"] = form["homeTeam"]["avgRating"]
-    match["homeTeam_position"] = form["homeTeam"]["position"]
-    match["homeTeam_pts"] = form["homeTeam"]["value"]
-    match["homeTeam_form"] = form["homeTeam"]["form"]
+    try:
+        match["homeTeam_avgRating"] = form["homeTeam"]["avgRating"]
+    except Exception as e:
+        print(e)
+        match["homeTeam_avgRating"] = None
+
+    try:
+        match["homeTeam_position"] = form["homeTeam"]["position"]
+    except Exception as e:
+        print(e)
+        match["homeTeam_position"] = None
+
+    try:
+        match["homeTeam_pts"] = form["homeTeam"]["value"]
+    except Exception as e:
+        print(e)
+        match["homeTeam_pts"] = None
+
+    try:
+        match["homeTeam_form"] = form["homeTeam"]["form"]
+    except Exception as e:
+        print(e)
+        match["homeTeam_form"] = None
+
+    try:
+        match["homeTeam_avgRating"] = form["homeTeam"]["avgRating"]
+    except Exception as e:
+        print(e)
+        match["homeTeam_avgRating"] = None
+
+    try:
+        match["homeTeam_position"] = form["homeTeam"]["position"]
+    except Exception as e:
+        print(e)
+        match["homeTeam_position"] = None
+
+    try:
+        match["homeTeam_pts"] = form["homeTeam"]["value"]
+    except Exception as e:
+        print(e)
+        match["homeTeam_pts"] = None
+
+    try:
+        match["homeTeam_form"] = form["homeTeam"]["form"]
+    except Exception as e:
+        print(e)
+        match["homeTeam_form"] = None
 
     # managers
-    match["name_manager_home"] = managers["homeManager"]["name"]
-    match["id_manager_home"] = managers["homeManager"]["id"]
-    match["name_manager_away"] = managers["awayManager"]["name"]
-    match["id_manager_away"] = managers["awayManager"]["id"]
+    try:
+        match["name_manager_home"] = managers["homeManager"]["name"]
+    except Exception as e:
+        print(e)
+        match["name_manager_home"] = None
+
+    try:
+        match["id_manager_home"] = managers["homeManager"]["id"]
+    except Exception as e:
+        print(e)
+        match["id_manager_home"] = None
+
+    try:
+        match["name_manager_away"] = managers["awayManager"]["name"]
+    except Exception as e:
+        print(e)
+        match["name_manager_away"] = None
+
+    try:
+        match["id_manager_away"] = managers["awayManager"]["id"]
+    except Exception as e:
+        print(e)
+        match["id_manager_away"] = None
 
     return match
 
@@ -205,8 +381,8 @@ def get_all_data_matches_of_day(matches):
         time.sleep(0.2)
 
 if __name__ == '__main__':
-    startDate = datetime(2020,10,25)
-    endDate = datetime(2020,10,31)
+    startDate = datetime(2018,3,28)
+    endDate = datetime(2021,12,2)
     dates = pd.date_range(startDate, endDate - timedelta(days=1), freq='d')
     for date in dates:
         print(date)
@@ -218,7 +394,8 @@ if __name__ == '__main__':
                 if match["tournament"]["uniqueTournament"]["id"] in top_tournament:
                     get_data_match(match["id"])
             except Exception as e:
-                print([match["id"], e])
+                print(["ERROR ID TOURNAMENT",match["id"], e])
 
         df = pd.DataFrame(good_matches)
-        df.to_csv(f"{date}.csv")
+        df.to_csv(f"data/{date}.csv")
+        good_matches = []
