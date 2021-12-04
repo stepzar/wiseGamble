@@ -265,28 +265,29 @@ def get_match_object(event, statistics, votes, form, managers):
         match["homeTeam_form"] = None
 
     try:
-        match["homeTeam_avgRating"] = form["homeTeam"]["avgRating"]
+        match["awayTeam_avgRating"] = form["awayTeam"]["avgRating"]
     except Exception as e:
         print(e)
-        match["homeTeam_avgRating"] = None
+        match["awayTeam_avgRating"] = None
 
     try:
-        match["homeTeam_position"] = form["homeTeam"]["position"]
+        match["awayTeam_position"] = form["awayTeam"]["position"]
     except Exception as e:
         print(e)
-        match["homeTeam_position"] = None
+        match["awayTeam_position"] = None
 
     try:
-        match["homeTeam_pts"] = form["homeTeam"]["value"]
+        match["awayTeam_pts"] = form["awayTeam"]["value"]
     except Exception as e:
         print(e)
-        match["homeTeam_pts"] = None
+        match["awayTeam_pts"] = None
 
     try:
-        match["homeTeam_form"] = form["homeTeam"]["form"]
+        match["awayTeam_form"] = form["awayTeam"]["form"]
     except Exception as e:
         print(e)
-        match["homeTeam_form"] = None
+        match["awayTeam_form"] = None
+
 
     # managers
     try:
