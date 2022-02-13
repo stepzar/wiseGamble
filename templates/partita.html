@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>WiseGamble - HomePage</title>
+{% endblock %}
+
+
+{% block body %}
+    <div>
+        <h1>{{ partita.nomeCasa }} vs {{ partita.nomeFuoriCasa }}</h1>
+        <h1>{{ partita.dataIncontro }}</h1>
+        {% for prediction, result in predictions.items() %}
+            <h3>{{ prediction }}:{{ result }}</h3>
+        {% endfor %}
+    </div>
+{% endblock %}
