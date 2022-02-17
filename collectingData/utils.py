@@ -2,6 +2,7 @@ import requests
 from datetime import datetime
 import pandas as pd
 from data.beans.Partita import Partita
+import datetime
 
 headers = {
   'authority': 'api.sofascore.com',
@@ -27,7 +28,7 @@ proxies = {
 
 top_tournament = [7,679,17,8,35,23,34,37,36,53,38,39,18,20,3121]
 
-def get_match_data(id):
+def get_match_data(id, side, side2):
     url_statistics = f"https://api.sofascore.com/api/v1/event/{id}/statistics"
 
     r = requests.get(url_statistics, headers=headers, proxies=proxies)
@@ -38,8 +39,10 @@ def get_match_data(id):
     for group in stats:
         for item in group["statisticsItems"]:
             if item["name"] not in no_stats:
-                statistics[f"all_{item['name']}_home".replace(" ", "_").lower()] = int(item["home"].replace("%",""))
-                statistics[f"all_{item['name']}_away".replace(" ", "_").lower()] = int(item["away"].replace("%",""))
+                if side == 'home':
+                    statistics[f"all_{item['name']}_{side2}".replace(" ", "_").lower()] = int(item["home"].replace("%",""))
+                if side == 'away':
+                    statistics[f"all_{item['name']}_{side2}".replace(" ", "_").lower()] = int(item["away"].replace("%",""))
 
     return statistics
 
@@ -55,8 +58,13 @@ def get_last_matches(id):
     while cont < 5:
         match = matches[len(matches) - partite - 1]
         print(match["status"])
-        if match["status"]["type"] == "finished" and match["tournament"]["uniqueTournament"]["id"] in top_tournament:
-            ids.append(match["id"])
+        if match["status"]["type"] == "finished" and match["id"] != id and match["tournament"]["uniqueTournament"]["id"] in top_tournament:
+            idHome = match["homeTeam"]["id"]
+            idAway = match["awayTeam"]["id"]
+            if id == idHome:
+                ids.append((match["id"],"home"))
+            elif id == idAway:
+                ids.append((match["id"],"away"))
             cont += 1
 
         partite += 1
@@ -95,27 +103,28 @@ def retrieveMatchByIdSofascore(id):
     lasts_away = get_last_matches(match["awayTeam"]["id"])
 
     home_stats = []
-    for home_match in lasts_home:
-        print(home_match)
-        home_stats.append(get_match_data(home_match))
+    print(f"partita {home} vs {away}")
+    for home_match,homeOrAway in lasts_home:
+        print(home_match, homeOrAway)
+        home_stats.append(get_match_data(home_match,homeOrAway,"home" ))
     home_df = pd.DataFrame(home_stats)
     home_df = home_df[["all_ball_possession_home","all_shots_on_target_home","all_shots_off_target_home","all_corner_kicks_home","all_fouls_home","all_yellow_cards_home","all_goalkeeper_saves_home"]]
 
+
     away_stats = []
-    for away_match in lasts_away:
-        print(away_match)
-        away_stats.append(get_match_data(away_match))
+    for away_match,homeOrAway in lasts_away:
+        print(away_match, homeOrAway)
+        away_stats.append(get_match_data(away_match,homeOrAway,"away"))
     away_df = pd.DataFrame(away_stats)
     away_df = away_df[["all_ball_possession_away","all_shots_on_target_away","all_shots_off_target_away","all_corner_kicks_away","all_fouls_away","all_yellow_cards_away","all_goalkeeper_saves_away"]]
 
     home_df = pd.DataFrame(home_df.mean().to_dict(),index=[home_df.index.values[-1]])
     away_df = pd.DataFrame(away_df.mean().to_dict(), index=[away_df.index.values[-1]])
-    # TODO RISOLVERE FATTO DELLE MEDIE
+
     home_df["id"] = id
     away_df["id"] = id
 
     df = pd.merge(home_df, away_df, on=["id"])
-
 
     partita = Partita(id, home, away, timestamp, tournament_name, image_home, away_image,
                     stats["referee"], stats["homeTeam_id"], stats["awayTeam_id"],stats["country"], df["all_fouls_home"][0],df["all_fouls_away"][0], df["all_yellow_cards_home"][0], df["all_yellow_cards_away"][0],
@@ -132,11 +141,15 @@ def retrieveMatchesByDateSofascore(date):
     r = requests.get(url, headers=headers, proxies=proxies)
     matches = r.json()["events"]
 
+    element = datetime.datetime.strptime(date, "%Y-%m-%d")
+
+    timestamp = datetime.datetime.timestamp(element)
+
     goods = []
     for match in matches:
         # only our leagues
         try:
-            if match["tournament"]["uniqueTournament"]["id"] in top_tournament:
+            if match["tournament"]["uniqueTournament"]["id"] in top_tournament and int(match["startTimestamp"]) > timestamp :
                 id = match["id"]
                 goods.append(id)
         except:
