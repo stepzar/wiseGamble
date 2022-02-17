@@ -1,6 +1,6 @@
 from flask import Flask, render_template, url_for
 
-from data.dao.memoryImpl.PartitaDaoMemory import PartitaDaoMemory
+from data.dao.memoryImpl.PartitaDaoSofascore import PartitaDaoMemory
 from predictions.PredictionMakerSingleton import predictionMaker
 
 app = Flask(__name__)
