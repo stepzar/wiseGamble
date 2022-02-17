@@ -1,7 +1,7 @@
 class Partita:
 
     def __init__(self, id, nomeCasa, nomeFuoriCasa, timestamp, tournament_name, home_image, away_image,
-                referee, homeTeam_id, awayTeam_id, all_fouls_home, all_fouls_away,
+                referee, homeTeam_id, awayTeam_id,country, all_fouls_home, all_fouls_away,
                 all_yellow_cards_home, all_yellow_cards_away, all_ball_possession_away,
                 all_shots_on_target_home,  all_shots_off_target_home, all_corner_kicks_home,
                 all_corner_kicks_away, all_goalkeeper_saves_away, people_vote_x, people_vote_2):
@@ -15,6 +15,7 @@ class Partita:
         self.referee = referee
         self.homeTeam_id = homeTeam_id
         self.awayTeam_id = awayTeam_id
+        self.country = country
         self.all_fouls_home = all_fouls_home
         self.all_fouls_away = all_fouls_away
         self.all_yellow_cards_home = all_yellow_cards_home

@@ -84,6 +84,7 @@ def retrieveMatchByIdSofascore(id):
     timestamp = int(match["startTimestamp"])
 
     stats["referee"] = match["referee"]["name"]
+    stats["country"] = match["tournament"]["category"]["name"]
     stats["homeTeam_id"] = match["homeTeam"]["id"]
     stats["awayTeam_id"] = match["awayTeam"]["id"]
     stats["people_vote_1"] = int(votes["vote1"])
@@ -117,7 +118,7 @@ def retrieveMatchByIdSofascore(id):
 
 
     partita = Partita(id, home, away, timestamp, tournament_name, image_home, away_image,
-                    stats["referee"], stats["homeTeam_id"], stats["awayTeam_id"], df["all_fouls_home"][0],df["all_fouls_away"][0], df["all_yellow_cards_home"][0], df["all_yellow_cards_away"][0],
+                    stats["referee"], stats["homeTeam_id"], stats["awayTeam_id"],stats["country"], df["all_fouls_home"][0],df["all_fouls_away"][0], df["all_yellow_cards_home"][0], df["all_yellow_cards_away"][0],
                     df["all_ball_possession_away"][0], df["all_shots_on_target_home"][0], df["all_shots_off_target_home"][0],
                     df["all_corner_kicks_home"][0], df["all_corner_kicks_away"][0], df["all_goalkeeper_saves_away"][0],
                     stats["people_vote_x"], stats["people_vote_2"])

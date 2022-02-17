@@ -1,3 +1,5 @@
+import pandas
+
 from data.beans.Partita import Partita
 from pandas.core.frame import DataFrame
 
@@ -19,7 +21,7 @@ class Predictor:
         df = self.scaling(partita.df)
         print("partita df dopo scaling ", df)
         prediction = self.classificatore.predict(df)
-        prediction = prediction[self.columns]
+        prediction = prediction[0]
         return (self.outputName, self.mappingOfResults[prediction])
 
     def encoding(self, df):
