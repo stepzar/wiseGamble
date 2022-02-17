@@ -1,0 +1,15 @@
+#main {
+    margin: 100px 60px;
+}
+
+.title {
+    display: flex;
+    width: 80%;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.fratm {
+    margin: auto;
+    text-align: center;
+}

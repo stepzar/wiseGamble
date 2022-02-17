@@ -1,16 +1,42 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %} {% block head %}
+<title>WiseGamble - {{ partita.home }} vs {{ partita.away }}</title>
+<link href="{{ url_for('static', filename='css/partita.css') }}" rel="stylesheet"> {% endblock %} {% block body %}
+<main id="main">
+    <div class="container">
+        <div class="row">
+            <div class="title">
+                <img src="{{ partita.home_image }}" alt="" srcset="">
+                <div class="fratm">
+                    <p>{{ partita.tournament_name }}</p>
+                    <h1>{{ partita.home }} - {{ partita.away }}</h1>
+                    <p>{{ partita.timestamp }}</p>
+                </div>
+                <img src="{{ partita.away_image }}" alt="" srcset="">
+            </div>
+            <br>
+            <section id="services" class="services">
+                <div class="container" data-aos="fade-up">
+                    <div class="row gy-6">
+                        <div class="col-lg-6 aos-init aos-animate" data-aos="fade-up" data-aos-delay="200">
+                            <div class="service-box blue">
+                                <i class="bi bi-flag-fill"></i>
+                                <h3>O/U Corner</h3>
+                                <p>Corner</p>
+                            </div>
+                        </div>
 
-{% block head %}
-<title>WiseGamble - HomePage</title>
-{% endblock %}
-
-
-{% block body %}
-    <div>
-        <h1>{{ partita.nomeCasa }} vs {{ partita.nomeFuoriCasa }}</h1>
-        <h1>{{ partita.dataIncontro }}</h1>
-        {% for prediction, result in predictions.items() %}
-            <h3>{{ prediction }}:{{ result }}</h3>
-        {% endfor %}
+                        <div class="col-lg-6 aos-init aos-animate" data-aos="fade-up" data-aos-delay="300">
+                            <div class="service-box orange">
+                                <img src="{{ url_for('static', filename='image/referee.svg') }}" width="30px" alt="" srcset="">
+                                <h3>O/U Cartellini Gialli</h3>
+                                <p></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
     </div>
+</main>
+
 {% endblock %}

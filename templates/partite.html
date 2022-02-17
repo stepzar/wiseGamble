@@ -1,15 +1,41 @@
-{% extends 'base.html' %}
-
-{% block head %}
+{% extends 'base.html' %} {% block head %}
 <title>WiseGamble - Partite</title>
-{% endblock %}
-
-
-{% block body %}
-    {% for partita in partite  %}
-        <div>
-            <h1>{{ partita.nomeCasa }} vs {{ partita.nomeFuoriCasa }}</h1>
-            <h1>{{ partita.dataIncontro }}</h1>
+{% endblock %} {% block body %}
+<main id="main" style="margin: 82px 60px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 left-blog-pad">
+                <div class="schedule-text">
+                    <h4 class="st-title">Partite di oggi</h4>
+                    <div class="st-table">
+                        <table style="width: 100%">
+                            <tbody>
+                                {% for partita in partite %}
+                                <tr>
+                                    <td class="left-team" style="text-align: center">
+                                        <img src="{{ partita.home_image }}" width="50px" style="margin: auto" alt="">
+                                        <h4 style="margin-bottom: 0">{{ partita.home }}</h4>
+                                    </td>
+                                    <td class="st-option" style="text-align: center;">
+                                        <div class="so-text">{{ partita.tournament_name }}</div>
+                                        <h4 style="margin-bottom: 0">VS</h4>
+                                        <div class="so-text">{{ partita.timestamp }}</div>
+                                    </td>
+                                    <td class="right-team" style="text-align: center">
+                                        <img src="{{ partita.away_image }}" width="50px" style="margin: auto" alt="">
+                                        <h4 style="margin-bottom: 0">{{ partita.away }}</h4>
+                                    </td>
+                                    <td style="text-align: center">
+                                        <a class="btn btn-primary" href="/partita/{{ partita.id }}">Previsione</a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
-    {% endfor %}
-{% endblock %}
+    </div>
+</main>
+{% endblock %}'
