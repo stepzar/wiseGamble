@@ -7,10 +7,10 @@ class PredictionMaker:
     def __init__(self):
         self.predictors = []
 
-    def addPredictor(self,predictor : Predictor):
+    def addPredictor(self, predictor : Predictor):
         self.predictors.append(predictor)
 
-    def makePredictions(self,partita : Partita) -> dict:
+    def makePredictions(self, partita : Partita) -> dict:
         result = {}
         for predictor in self.predictors:
             predictionResult = predictor.predictPartita(partita)
