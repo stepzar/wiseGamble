@@ -46,9 +46,10 @@ def get_match_data(id, side, side2):
 
     return statistics
 
-def get_last_matches(id):
+def get_last_matches(id,idPartita):
     url = f"https://api.sofascore.com/api/v1/team/{id}/events/last/0"
     r = requests.get(url, headers=headers)
+    print("id della partita ", id)
     print(r)
     matches = r.json()["events"]
 
@@ -58,7 +59,7 @@ def get_last_matches(id):
     while cont < 5:
         match = matches[len(matches) - partite - 1]
         print(match["status"])
-        if match["status"]["type"] == "finished" and match["id"] != id and match["tournament"]["uniqueTournament"]["id"] in top_tournament:
+        if match["status"]["type"] == "finished" and match["id"] != idPartita and match["tournament"]["uniqueTournament"]["id"] in top_tournament:
             idHome = match["homeTeam"]["id"]
             idAway = match["awayTeam"]["id"]
             if id == idHome:
@@ -99,8 +100,8 @@ def retrieveMatchByIdSofascore(id):
     stats["people_vote_x"] = int(votes["voteX"])
     stats["people_vote_2"] = int(votes["vote2"])
 
-    lasts_home = get_last_matches(match["homeTeam"]["id"])
-    lasts_away = get_last_matches(match["awayTeam"]["id"])
+    lasts_home = get_last_matches(match["homeTeam"]["id"],id)
+    lasts_away = get_last_matches(match["awayTeam"]["id"],id)
 
     home_stats = []
     print(f"partita {home} vs {away}")
