@@ -59,7 +59,12 @@ def get_last_matches(id):
         match = matches[len(matches) - partite - 1]
         print(match["status"])
         if match["status"]["type"] == "finished" and match["tournament"]["uniqueTournament"]["id"] in top_tournament:
-            ids.append(match["id"])
+            idHome = match["homeTeam"]["id"]
+            idAway = match["awayTeam"]["id"]
+            if id == idHome:
+                ids.append((match["id"],"home"))
+            elif id == idAway:
+                ids.append((match["id"],"away"))
             cont += 1
 
         partite += 1
@@ -107,9 +112,9 @@ def retrieveMatchByIdSofascore(id):
 
 
     away_stats = []
-    for away_match in lasts_away:
-        print(away_match)
-        away_stats.append(get_match_data(away_match))
+    for away_match,homeOrAway in lasts_away:
+        print(away_match, homeOrAway)
+        away_stats.append(get_match_data(away_match,homeOrAway,"away"))
     away_df = pd.DataFrame(away_stats)
     away_df = away_df[["all_ball_possession_away","all_shots_on_target_away","all_shots_off_target_away","all_corner_kicks_away","all_fouls_away","all_yellow_cards_away","all_goalkeeper_saves_away"]]
 
@@ -136,11 +141,15 @@ def retrieveMatchesByDateSofascore(date):
     r = requests.get(url, headers=headers, proxies=proxies)
     matches = r.json()["events"]
 
+    element = datetime.datetime.strptime(date, "%Y-%m-%d")
+
+    timestamp = datetime.datetime.timestamp(element)
+
     goods = []
     for match in matches:
         # only our leagues
         try:
-            if match["tournament"]["uniqueTournament"]["id"] in top_tournament:
+            if match["tournament"]["uniqueTournament"]["id"] in top_tournament and int(match["startTimestamp"]) > timestamp :
                 id = match["id"]
                 goods.append(id)
         except:
