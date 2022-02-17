@@ -6,3 +6,9 @@ thead,
 tr {
     padding: 10px;
 }
+
+.btn {
+    background-color: #4154f1 !important;
+    border: none;
+    font-weight: bold;
+}

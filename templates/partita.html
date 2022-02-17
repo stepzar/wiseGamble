@@ -9,19 +9,22 @@
                 <div class="fratm">
                     <p>{{ partita.tournament_name }}</p>
                     <h1>{{ partita.home }} - {{ partita.away }}</h1>
-                    <p>{{ partita.timestamp }}</p>
+                    <p>{{ datetime.utcfromtimestamp(partita.timestamp).strftime('%Y-%m-%d %H:%M') }}</p>
                 </div>
                 <img src="{{ partita.away_image }}" alt="" srcset="">
             </div>
             <br>
-            <section id="services" class="services">
+            <section id="services" class="services" style="text-align: center">
+                <h2>Previsioni:</h2>
+                <br>
                 <div class="container" data-aos="fade-up">
                     <div class="row gy-6">
                         <div class="col-lg-6 aos-init aos-animate" data-aos="fade-up" data-aos-delay="200">
                             <div class="service-box blue">
                                 <i class="bi bi-flag-fill"></i>
                                 <h3>O/U Corner</h3>
-                                <h3>{{ predictions["Corner"] }}</h3>
+                                <h3>{{ predictions["Corner"][0] }}</h3>
+                                <h4>Confidenza {{ predictions["Corner"][1] }}%</h4>
                             </div>
                         </div>
 
@@ -29,7 +32,8 @@
                             <div class="service-box orange">
                                 <img src="{{ url_for('static', filename='image/referee.svg') }}" width="30px" alt="" srcset="">
                                 <h3>O/U Cartellini Gialli</h3>
-                                <h3>{{ predictions["YellowCards"] }}</h3>
+                                <h3>{{ predictions["YellowCards"][0] }}</h3>
+                                <h4>Confidenza {{ predictions["YellowCards"][1] }}%</h4>
                             </div>
                         </div>
                     </div>

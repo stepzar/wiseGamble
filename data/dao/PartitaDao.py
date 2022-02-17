@@ -9,7 +9,7 @@ class PartitaDao(ABC):
         pass
 
     @abstractmethod
-    def doRetriveAll(self):
+    def doRetrieveAll(self):
         pass
 
     @abstractmethod

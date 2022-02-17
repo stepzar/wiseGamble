@@ -4,6 +4,24 @@ from data.dao.PartitaDao import PartitaDao
 from datetime import datetime
 import sqlite3
 
+leagues = {
+    "champions":"UEFA Champions League",
+    "europa":"UEFA Europa League",
+    "premier":"Premier League",
+    "laliga":"LaLiga",
+    "bundesliga":"Bundesliga",
+    "seriea":"Serie A",
+    "ligue1":"Ligue 1",
+    "eredivise":"Eredivise",
+    "premiership":"Premiership",
+    "serieb":"Serie B",
+    "proleague":"Pro League",
+    "superliga":"Superliga",
+    "championship":"Championship",
+    "eliteserien":"Eliteserien",
+    "lechpozann":"Lech pozann",
+}
+
 class PartitaDaoSofascore(PartitaDao):
     def __init__(self):
         self.connection = sqlite3.connect("database.db", check_same_thread=False)
@@ -24,7 +42,7 @@ class PartitaDaoSofascore(PartitaDao):
         partita = self.cur.execute("SELECT * FROM partita where id = ?", (id,)).fetchone()
         return self.sqlToPartita(partita)
 
-    def doRetriveAll(self):
+    def doRetrieveAll(self):
         partite = self.cur.execute("SELECT * FROM partita").fetchall()
         matches = []
         for partita in partite:
@@ -32,8 +50,13 @@ class PartitaDaoSofascore(PartitaDao):
 
         return matches
 
-    def doRetrieveByDate(self, date):
-        return
+    def doRetrieveByLeague(self, league):
+        partite = self.cur.execute("SELECT * FROM partita where tournament_name = ?", (leagues[league],)).fetchall()
+        matches = []
+        for partita in partite:
+            matches.append(self.sqlToPartita(partita))
+
+        return matches
 
     def sqlToPartita(self,tupla):
         return Partita(*tupla)

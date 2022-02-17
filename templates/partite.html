@@ -1,14 +1,20 @@
-{% extends 'base.html' %} {% block head %}
+{% extends 'base.html' %}
+
+{% block head %}
 <title>WiseGamble - Partite</title>
-{% endblock %} {% block body %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/partite.css') }}">
+{% endblock %}
+
+{% block body %}
 <main id="main" style="margin: 82px 60px;">
     <div class="container">
         <div class="row">
             <div class="col-lg-8 left-blog-pad">
                 <div class="schedule-text">
                     <h4 class="st-title">Partite di oggi</h4>
+                    <br>
                     <div class="st-table">
-                        <table style="width: 100%">
+                        <table style="width: 100%; line-height: 2">
                             <tbody>
                                 {% for partita in partite %}
                                 <tr>
@@ -19,19 +25,76 @@
                                     <td class="st-option" style="text-align: center;">
                                         <div class="so-text">{{ partita.tournament_name }}</div>
                                         <h4 style="margin-bottom: 0">VS</h4>
-                                        <div class="so-text">{{ partita.timestamp }}</div>
+                                        <div class="so-text">{{ datetime.utcfromtimestamp(partita.timestamp).strftime('%Y-%m-%d %H:%M') }}</div>
                                     </td>
                                     <td class="right-team" style="text-align: center">
                                         <img src="{{ partita.away_image }}" width="50px" style="margin: auto" alt="">
                                         <h4 style="margin-bottom: 0">{{ partita.away }}</h4>
                                     </td>
                                     <td style="text-align: center">
-                                        <a class="btn btn-primary" href="/partita/{{ partita.id }}">Previsione</a>
+                                        <a class="btn btn-primary" href="/partita/{{ date }}&{{ partita.id }}">Previsione</a>
                                     </td>
                                 </tr>
                                 {% endfor %}
                             </tbody>
                         </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="schedule-side">
+                    <div class="schedule-league">
+                        <div class="section-title">
+                            <h5>Filtra per Campionato:</h5>
+                        </div>
+                        <br>
+                        <ul>
+                            <li>
+                                <a href="/partite/{{ date }}&champions">UEFA Champions League</a>
+                            </li>
+                            <li>
+                                <a href="/partite/{{ date }}&europa">UEFA Europa League</a>
+                            </li>
+                            <li>
+                                <a href="/partite/{{ date }}&premier">Premier League</a>
+                            </li>
+                            <li>
+                                <a href="/partite/{{ date }}&laliga">LaLiga</a>
+                            </li>
+                            <li>
+                                <a href="/partite/{{ date }}&bundesliga">Serie A</a>
+                            </li>
+                            <li>
+                                <a href="/partite/{{ date }}&seriea">Ligue 1</a>
+                            </li>
+                            <li>
+                                <a href="/partite/{{ date }}&serieb">Serie B</a>
+                            </li>
+                            <li>
+                                <a href="/partite/{{ date }}&eredivise">Eredivise</a>
+                            </li>
+                            <li>
+                                <a href="/partite/{{ date }}&premiership">Premiership</a>
+                            </li>
+                            <li>
+                                <a href="/partite/{{ date }}&ligue1">Ligue 1</a>
+                            </li>
+                            <li>
+                                <a href="/partite/{{ date }}&proleague">Pro League</a>
+                            </li>
+                            <li>
+                                <a href="/partite/{{ date }}&superliga">Superliga</a>
+                            </li>
+                            <li>
+                                <a href="/partite/{{ date }}&championship">Championship</a>
+                            </li>
+                            <li>
+                                <a href="/partite/{{ date }}&eliteserien">Eliteserien</a>
+                            </li>
+                            <li>
+                                <a href="/partite/{{ date }}&lechpozann">Lech Pozann</a>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
