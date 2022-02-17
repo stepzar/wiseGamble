@@ -225,7 +225,6 @@ def get_match_object(event, statistics, votes, form, managers, lineups, incident
                 for item in group["statisticsItems"]:
                     match[f"{stat['period']}_{item['name']}_home".replace(" ", "_").lower()] = item["home"]
                     match[f"{stat['period']}_{item['name']}_away".replace(" ", "_").lower()] = item["away"]
-                    #print(item)
     except Exception as e:
         print(e)
 
@@ -390,8 +389,8 @@ def get_all_data_matches_of_day(matches):
         time.sleep(0.2)
 
 if __name__ == '__main__':
-    startDate = datetime(2021,12,1)
-    endDate = datetime(2021,12,2)
+    startDate = datetime(2022,2,7)
+    endDate = datetime(2022,2,7)
     dates = pd.date_range(startDate, endDate - timedelta(days=1), freq='d')
     for date in dates:
         print(date)

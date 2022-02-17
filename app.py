@@ -1,27 +1,28 @@
 from flask import Flask, render_template, url_for
-
-from data.dao.memoryImpl.PartitaDaoSofascore import PartitaDaoMemory
+from data.dao.memoryImpl.PartitaDaoSofascore import PartitaDaoSofascore
 from predictions.PredictionMakerSingleton import predictionMaker
+import sqlite3
 
 app = Flask(__name__)
+dao = PartitaDaoSofascore()
 
-# percorso url
-# home page
 @app.route('/')
 def index():
     return render_template('index.html')
 
-@app.route('/partite')
-def partitePage():
-    partiteDao = PartitaDaoMemory()
-    return render_template('partite.html',partite = partiteDao.doRetriveAll())
+@app.route('/documentazione')
+def documentazionePage():
+    return render_template('documentazione.html')
+
+@app.route('/partite/<date>')
+def partitePage(date):
+    return render_template('partite.html',partite = dao.doRetriveAll())
 
 @app.route('/partita/<id>')
 def partitaPage(id):
-    partiteDao = PartitaDaoMemory()
-    partita = partiteDao.doRetrieveById(int(id))
+    partita = dao.doRetrieveById(int(id))
     predictions = predictionMaker.makePredictions(partita)
-    return render_template('partita.html',partita = partita, predictions = predictions)
+    return render_template('partita.html',partita = partita,predictions = predictions)
 
 if __name__ == "__main__":
     app.run(debug=True)
