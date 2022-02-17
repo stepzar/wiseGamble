@@ -14,5 +14,5 @@ class PredictionMaker:
         result = {}
         for predictor in self.predictors:
             predictionResult = predictor.predictPartita(partita)
-            result[predictionResult[0]] = predictionResult[1]
+            result[predictionResult[0]] = (predictionResult[1], predictionResult[2])
         return result

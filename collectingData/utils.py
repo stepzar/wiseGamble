@@ -58,7 +58,7 @@ def get_last_matches(id):
     while cont < 5:
         match = matches[len(matches) - partite - 1]
         print(match["status"])
-        if match["status"]["type"] == "finished" and match["tournament"]["uniqueTournament"]["id"] in top_tournament:
+        if match["status"]["type"] == "finished" and match["id"] != id and match["tournament"]["uniqueTournament"]["id"] in top_tournament:
             idHome = match["homeTeam"]["id"]
             idAway = match["awayTeam"]["id"]
             if id == idHome:

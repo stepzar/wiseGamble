@@ -21,7 +21,9 @@ class Predictor:
         df = df[self.columns]
         prediction = self.classificatore.predict(df)
         prediction = prediction[0]
-        return (self.outputName, self.mappingOfResults[prediction])
+        confidence = self.classificatore.predict_proba(df)
+        perc_confidence = "%.2f" % (confidence[0][prediction]*100)
+        return (self.outputName, self.mappingOfResults[prediction], perc_confidence)
 
     def encoding(self, df):
         if("tournament_name" in df.columns):
