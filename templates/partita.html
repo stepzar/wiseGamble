@@ -24,7 +24,7 @@
                                 <i class="bi bi-flag-fill"></i>
                                 <h3>O/U Corner</h3>
                                 <h3>{{ predictions["Corner"][0] }}</h3>
-                                <h4>Confidenza {{ predictions["Corner"][1] }}%</h4>
+                                <h4>Fiducia {{ predictions["Corner"][1] }}%</h4>
                             </div>
                         </div>
 
@@ -33,7 +33,7 @@
                                 <img src="{{ url_for('static', filename='image/referee.svg') }}" width="30px" alt="" srcset="">
                                 <h3>O/U Cartellini Gialli</h3>
                                 <h3>{{ predictions["YellowCards"][0] }}</h3>
-                                <h4>Confidenza {{ predictions["YellowCards"][1] }}%</h4>
+                                <h4>Fiducia {{ predictions["YellowCards"][1] }}%</h4>
                             </div>
                         </div>
                     </div>
