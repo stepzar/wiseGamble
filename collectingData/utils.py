@@ -49,8 +49,6 @@ def get_match_data(id, side, side2):
 def get_last_matches(id,idPartita):
     url = f"https://api.sofascore.com/api/v1/team/{id}/events/last/0"
     r = requests.get(url, headers=headers)
-    print("id della partita ", id)
-    print(r)
     matches = r.json()["events"]
 
     ids = []
@@ -58,7 +56,6 @@ def get_last_matches(id,idPartita):
     partite = 0
     while cont < 5:
         match = matches[len(matches) - partite - 1]
-        print(match["status"])
         if match["status"]["type"] == "finished" and match["id"] != idPartita and match["tournament"]["uniqueTournament"]["id"] in top_tournament:
             idHome = match["homeTeam"]["id"]
             idAway = match["awayTeam"]["id"]
@@ -75,38 +72,38 @@ def get_last_matches(id,idPartita):
 def retrieveMatchByIdSofascore(id):
     url = f"https://api.sofascore.com/api/v1/event/{id}"
     match = requests.get(url, headers=headers, proxies=proxies).json()["event"]
-    print(match)
     stats = {}
 
     url_votes = f"https://api.sofascore.com/api/v1/event/{id}/votes"
     r_votes = requests.get(url_votes, headers=headers, proxies=proxies)
     votes = r_votes.json()["vote"]
-    print(votes)
 
-    id = match["id"]
-    home = match["homeTeam"]["name"]
-    image_home = f"https://api.sofascore.app/api/v1/team/{match['homeTeam']['id']}/image"
-    away = match["awayTeam"]["name"]
-    away_image = f"https://api.sofascore.app/api/v1/team/{match['awayTeam']['id']}/image"
-    tournament_name = match["tournament"]["name"]
-    #date = datetime.utcfromtimestamp(int(match["startTimestamp"])).strftime('%Y-%m-%d')
-    timestamp = int(match["startTimestamp"])
+    try:
+        id = match["id"]
+        home = match["homeTeam"]["name"]
+        image_home = f"https://api.sofascore.app/api/v1/team/{match['homeTeam']['id']}/image"
+        away = match["awayTeam"]["name"]
+        away_image = f"https://api.sofascore.app/api/v1/team/{match['awayTeam']['id']}/image"
+        tournament_name = match["tournament"]["name"]
+        #date = datetime.utcfromtimestamp(int(match["startTimestamp"])).strftime('%Y-%m-%d')
+        timestamp = int(match["startTimestamp"])
 
-    stats["referee"] = match["referee"]["name"]
-    stats["country"] = match["tournament"]["category"]["name"]
-    stats["homeTeam_id"] = match["homeTeam"]["id"]
-    stats["awayTeam_id"] = match["awayTeam"]["id"]
-    stats["people_vote_1"] = int(votes["vote1"])
-    stats["people_vote_x"] = int(votes["voteX"])
-    stats["people_vote_2"] = int(votes["vote2"])
+        stats["referee"] = match["referee"]["name"]
+        stats["country"] = match["tournament"]["category"]["name"]
+        stats["homeTeam_id"] = match["homeTeam"]["id"]
+        stats["awayTeam_id"] = match["awayTeam"]["id"]
+        stats["people_vote_1"] = int(votes["vote1"])
+        stats["people_vote_x"] = int(votes["voteX"])
+        stats["people_vote_2"] = int(votes["vote2"])
+    except:
+        print(f"Errore info partita {id} non trovata")
+        return None
 
     lasts_home = get_last_matches(match["homeTeam"]["id"],id)
     lasts_away = get_last_matches(match["awayTeam"]["id"],id)
 
     home_stats = []
-    print(f"partita {home} vs {away}")
     for home_match,homeOrAway in lasts_home:
-        print(home_match, homeOrAway)
         home_stats.append(get_match_data(home_match,homeOrAway,"home" ))
     home_df = pd.DataFrame(home_stats)
     home_df = home_df[["all_ball_possession_home","all_shots_on_target_home","all_shots_off_target_home","all_corner_kicks_home","all_fouls_home","all_yellow_cards_home","all_goalkeeper_saves_home"]]
@@ -114,7 +111,6 @@ def retrieveMatchByIdSofascore(id):
 
     away_stats = []
     for away_match,homeOrAway in lasts_away:
-        print(away_match, homeOrAway)
         away_stats.append(get_match_data(away_match,homeOrAway,"away"))
     away_df = pd.DataFrame(away_stats)
     away_df = away_df[["all_ball_possession_away","all_shots_on_target_away","all_shots_off_target_away","all_corner_kicks_away","all_fouls_away","all_yellow_cards_away","all_goalkeeper_saves_away"]]
