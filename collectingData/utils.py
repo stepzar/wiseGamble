@@ -150,7 +150,7 @@ def retrieveMatchesByDateSofascore(date):
     for match in matches:
         # only our leagues
         try:
-            if match["tournament"]["uniqueTournament"]["id"] in top_tournament and int(match["startTimestamp"]) > timestamp :
+            if match["tournament"]["uniqueTournament"]["id"] in top_tournament and int(match["startTimestamp"]) > timestamp and int(match["startTimestamp"]) < (timestamp+86400):
                 id = match["id"]
                 goods.append(id)
         except:
