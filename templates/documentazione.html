@@ -9,8 +9,885 @@
     <main id="main">
         <section class="inner-page">
             <div class="container">
-                <p>
-                </p>
+                    <div id="doc" class="markdown-body container-fluid comment-enabled" data-hard-breaks="true">
+                        <h1>Documentazione</h1>
+                        <h2 id="Introduzione" data-id="Introduzione"><a class="anchor hidden-xs" href="#Introduzione" title="Introduzione"><span class="octicon octicon-link"></span></a><span>Introduzione</span></h2><p><span>La ludopatia rappresenta la rovina economica di molti giovani, il campo medico prova a risolvere questo problema debellando il gioco d’azzardo dalla loro vita.</span><br>
+<span>Noi proponiamo una soluzione alternativa:</span><br>
+<strong><span>AIUTANDOLI A VINCERE</span></strong><span>.</span></p><p><span>Spesso le scommesse vengono basate su nessun criterio logico, affidandosi alla fortuna e ai sentimenti. </span><strong><span>WiseGamble</span></strong><span> propone di pronosticare le scommesse tramite un algoritmo intelligente.</span></p><p><span>Per la creazione del modello predittivo abbiamo scelto di seguire il modello </span><strong><span>CRISP-DM</span></strong><span> </span><em><span>(Cross Industry Standard Process for Data Mining)</span></em><span>.</span></p><div class="alert alert-warning">
+<p><span>Per accedere ai jupyter notebook colab riguardanti la pipeline ML </span><a href="https://drive.google.com/drive/folders/1ne-onATJ4yrGlEJ1tPKRHwnoYcxcsQfw?usp=sharing" target="_blank" rel="noopener"><span>clicca qui</span></a><span>.</span></p>
+<p><span>Per accedere alla repository github </span><a href="https://github.com/stepzar/wiseGamble.git" target="_blank" rel="noopener"><span>clicca qui</span></a><span>.</span></p>
+</div><p><span>Di seguito illustriamo le varie fasi percorse per la realizzazione del progetto.</span></p><h2 id="Business-Understanding" data-id="Business-Understanding"><a class="anchor hidden-xs" href="#Business-Understanding" title="Business-Understanding"><span class="octicon octicon-link"></span></a><span>Business Understanding</span></h2><p><span>Il sistema che si vuole realizzare ha come obiettivo quello di pronosticare i risultati di partite calcistiche dei top campionati.</span><br>
+<span>I campionati per i quali si dovranno fornire i pronostici sono:</span></p><ul>
+<li><span>UEFA Champions League</span></li>
+<li><span>UEFA Europa League</span></li>
+<li><span>Premier League</span></li>
+<li><span>LaLiga</span></li>
+<li><span>Bundesliga</span></li>
+<li><span>Serie A</span></li>
+<li><span>Ligue 1</span></li>
+<li><span>Eredivise</span></li>
+<li><span>Premiership (scozia)</span></li>
+<li><span>Serie B</span></li>
+<li><span>Pro League (belgio)</span></li>
+<li><span>Superliga (danimarca)</span></li>
+<li><span>Championship</span></li>
+<li><span>Eliteserien</span></li>
+<li><span>Lech pozann (polonia)</span></li>
+</ul><p><span>I pronostici presi in considerazione saranno:</span></p><ul>
+<li><span>1X2</span></li>
+<li><span>Totali Goal (Over 2.5/ Under 2.5)</span></li>
+<li><span>Entrambe le squadre segnano</span></li>
+<li><span>Totali cartellini gialli (Over 5.5/ Under 5.5)</span></li>
+<li><span>Totali Corner 1X2</span></li>
+<li><span>Totali Corner (Over 7.5/ Under 7.5)</span></li>
+</ul><p><span>L’utente ha la possibilità di visualizzare in maniera semplice e veloce l’insieme di pronostici di una partita.</span><br>
+<span>Tramite il sistema, l’utente potrà visualizzare le predizioni delle categorie sopracitate per le partite da disputarsi nelle prossime 24 ore.</span></p><h5 id="Business-Success-Criteria" data-id="Business-Success-Criteria"><a class="anchor hidden-xs" href="#Business-Success-Criteria" title="Business-Success-Criteria"><span class="octicon octicon-link"></span></a><span>Business Success Criteria</span></h5><p><span>Considerando la difficoltà nel fornire pronostici in questo campo, non è possibile garantire la realizzazione di modelli che soddisfino determinati canoni di affidabilità. Quindi l’obiettivo del progetto è quello di costruire una pipeline corretta che ci permetta di avvicinarci quanto più possibile ad un accuracy di almeno il 60%.</span></p><h2 id="Data-Understanding" data-id="Data-Understanding"><a class="anchor hidden-xs" href="#Data-Understanding" title="Data-Understanding"><span class="octicon octicon-link"></span></a><span>Data Understanding</span></h2><p><span>Questa fase prevede la collezione dei dati e l’analisi degli stessi, evidenziando problemi di consistenza e qualità.</span></p><h3 id="Data-Collection" data-id="Data-Collection"><a class="anchor hidden-xs" href="#Data-Collection" title="Data-Collection"><span class="octicon octicon-link"></span></a><span>Data Collection</span></h3><p><span>I dati sono stati reperiti tramite web scraping del sito </span><a href="https://www.sofascore.com/" target="_blank" rel="noopener"><span>https://www.sofascore.com/</span></a><span> con l’utilizzo di python; è stato deciso di estrarre i dati relativi a tutte le partite dei campionati sopra citati a partire dal 2015.</span></p><pre><code>if __name__ == '__main__':
+    startDate = datetime(2015,1,1)
+    endDate = datetime(2021,12,2)
+    dates = pd.date_range(startDate, endDate - timedelta(days=1), freq='d')
+    for date in dates:
+        print(date)
+        date = date.strftime("%Y-%m-%d")
+        matches = get_data_day(date)
+        for match in matches["events"]:
+            # check if the match is in a tournament
+            try:
+                if match["tournament"]["uniqueTournament"]["id"] in top_tournament:
+                    get_data_match(match["id"])
+            except Exception as e:
+                print(["ERROR ID TOURNAMENT",match["id"], e])
+
+        df = pd.DataFrame(good_matches)
+        df.to_csv(f"data/{date}.csv")
+        good_matches = []
+</code></pre><p><span>I dati ottenuti erano inizialmente separati in molteplici file csv, uno per ogni giorno esaminato, sono stati successivamente uniti in un unico file.</span></p><h3 id="Data-Analysis" data-id="Data-Analysis"><a class="anchor hidden-xs" href="#Data-Analysis" title="Data-Analysis"><span class="octicon octicon-link"></span></a><span>Data Analysis</span></h3><p><span>I dati grezzi ottenuti formavano un dataset [70785 rows × 2038] columns.</span><br>
+<span>I dati ottenuti erano formati da</span></p><ul>
+<li>
+<p><span>informazioni di riconoscimento della partita:</span></p>
+<ul>
+<li><span>squadra in casa e fuori casa</span></li>
+<li><span>campionato</span></li>
+<li><span>round del campionato</span></li>
+<li><span>data dell’incontro</span></li>
+<li><span>etc…</span></li>
+</ul>
+</li>
+<li>
+<p><span>statistiche della partita a fine primo tempo e fine partita</span></p>
+<ul>
+<li><span>tutti i tiri in porta</span></li>
+<li><span>tutti i falli</span></li>
+<li><span>tutti i cartellini</span></li>
+<li><span>risultato della partita</span></li>
+<li><span>etc…</span></li>
+</ul>
+</li>
+<li>
+<p><span>pronostici del risultato</span></p>
+<ul>
+<li><span>risultato secondo gli utenti del sito</span></li>
+<li><span>quotazioni</span></li>
+<li><span>etc…</span></li>
+</ul>
+</li>
+<li>
+<p><span>statistiche per ogni giocatore</span></p>
+<ul>
+<li><span>tiri del giocatore</span></li>
+<li><span>accuratezza del tiro</span></li>
+<li><span>etc…</span></li>
+</ul>
+</li>
+<li>
+<p><span>id interni usati da sofascore</span></p>
+<ul>
+<li><span>id associati ad ogni giocatore</span></li>
+<li><span>id associato alla partita</span></li>
+<li><span>etc…</span></li>
+</ul>
+</li>
+</ul><h4 id="Problemi" data-id="Problemi"><a class="anchor hidden-xs" href="#Problemi" title="Problemi"><span class="octicon octicon-link"></span></a><span>Problemi</span></h4><p><span>Il numero di colonne risultava eccessivo; la maggior parte di esse oltre a non contenere informazioni rilevanti era principalmente formata da valori nulli.</span></p><p><img src="https://i.imgur.com/dyDCNw8.png" alt="" loading="lazy"></p><p><span>Successivamente ci siamo resi conto che per il modo in cui sofascore serviva le richieste tutte le righe erano duplicate.</span><br><br><br>
+<span>Per quanto riguarda problemi di consistenza, le statistiche, che contenevano i dati da noi ritenuti più interessanti per effettuare le predizioni, erano chiaramente solo disponibili a fine partita e quindi non utilizzabili per addestrare il classificatore senza causare problemi di data leakage.</span><br>
+<span>Tutte queste problematiche sono state risolte nella sezione di </span><a href="##Data-Preparation"><span>Data Preparation</span></a><span>.</span></p><h2 id="Data-Preparation" data-id="Data-Preparation"><a class="anchor hidden-xs" href="#Data-Preparation" title="Data-Preparation"><span class="octicon octicon-link"></span></a><span>Data Preparation</span></h2><p><span>In questa sezione si discute di come sono stati preparati i dati per poi essere elaborati dai modelli, inoltre sono presente le soluzioni ai problemi evidenziati nella sezione precedente.</span></p><h3 id="Data-Cleaning" data-id="Data-Cleaning"><a class="anchor hidden-xs" href="#Data-Cleaning" title="Data-Cleaning"><span class="octicon octicon-link"></span></a><span>Data Cleaning</span></h3><p><span>In questa fase provvediamo alla </span><em><span>pulizia</span></em><span> dei dati.</span><br>
+<span>Il primo passo è stato quello di eliminare le righe duplicate; successivamente, visto il numero elevato di colonne del dataset, abbiamo deciso di tenere in considerazione solo le colonne con al massimo il 20% di valori null, riducendo il dataset ad un totale di 33459 rows x 45 columns.</span><br><br><br>
+<span>Si ritiene utile rappresentare graficamente la somma dei valori </span><em><span>null</span></em><span> presenti per ogni colonna all’interno del dataset, in modo da poter ragionare sulle possibili soluzioni da intraprendere.</span></p><p><img src="https://i.imgur.com/vetYeDv.png" alt="" loading="lazy"></p><p><span>Dal grafico si evince che le colonne </span><em><span>all_offside_home</span></em><span> e </span><em><span>all_offside_away</span></em><span> hanno il maggior numero di righe con valori null. Analizzando il significato di queste colonne non abbiamo evidenziato nessuna correlazione con le predizioni che si dovranno fornire, di conseguenza abbiamo scelto di eliminare queste due colonne.</span><br>
+<span>Mentre per le restanti colonne abbiamo deciso di eliminare unicamente le righe con valori null.</span></p><pre><code># eliminamo le colonne all_offsides_home all_offsides_away
+df.drop(columns=["all_offsides_home", "all_offsides_away"], inplace=True)
+
+# eliminiamo tutte le righe con valori nan
+df = df.dropna()
+df.isnull().sum()
+
+df.shape[0] -&gt; 25349 rows
+</code></pre><div class="alert alert-info">
+<p><span>Il dataset era inizialmente composto da 33459 righe; a seguito della fase di pulizia il dataset è ora costituito da 25349 righe.</span></p>
+</div><p><span>Dopo l’eliminazione dei valori null, si procede con l’analisi dei tipi di dati presenti nel dataset:</span></p><table>
+<thead>
+<tr>
+<th style="text-align:center"><span>Column</span></th>
+<th style="text-align:center"><span>Type</span></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><span>timestamp</span></td>
+<td style="text-align:center"><span>int64</span></td>
+</tr>
+<tr>
+<td style="text-align:center"><span>tournament_name</span></td>
+<td style="text-align:center"><span>object</span></td>
+</tr>
+<tr>
+<td style="text-align:center"><span>country</span></td>
+<td style="text-align:center"><span>object</span></td>
+</tr>
+<tr>
+<td style="text-align:center"><span>round</span></td>
+<td style="text-align:center"><span>float64</span></td>
+</tr>
+<tr>
+<td style="text-align:center"><span>city</span></td>
+<td style="text-align:center"><span>object</span></td>
+</tr>
+<tr>
+<td style="text-align:center"><span>stadium</span></td>
+<td style="text-align:center"><span>object</span></td>
+</tr>
+<tr>
+<td style="text-align:center"><span>referee</span></td>
+<td style="text-align:center"><span>object</span></td>
+</tr>
+<tr>
+<td style="text-align:center"><span>homeTeam</span></td>
+<td style="text-align:center"><span>object</span></td>
+</tr>
+<tr>
+<td style="text-align:center"><span>homeTeam_id</span></td>
+<td style="text-align:center"><span>int64</span></td>
+</tr>
+<tr>
+<td style="text-align:center"><span>awayTeam</span></td>
+<td style="text-align:center"><span>object</span></td>
+</tr>
+<tr>
+<td style="text-align:center"><span>awayTeam_id</span></td>
+<td style="text-align:center"><span>int64</span></td>
+</tr>
+<tr>
+<td style="text-align:center"><span>homeScore_period1</span></td>
+<td style="text-align:center"><span>float64</span></td>
+</tr>
+<tr>
+<td style="text-align:center"><span>homeScore</span></td>
+<td style="text-align:center"><span>float64</span></td>
+</tr>
+<tr>
+<td style="text-align:center"><span>awayScore_period1</span></td>
+<td style="text-align:center"><span>float64</span></td>
+</tr>
+<tr>
+<td style="text-align:center"><span>awayScore</span></td>
+<td style="text-align:center"><span>float64</span></td>
+</tr>
+<tr>
+<td style="text-align:center"><span>hasGlobalHighlights</span></td>
+<td style="text-align:center"><span>bool</span></td>
+</tr>
+<tr>
+<td style="text-align:center"><span>all_ball_possession_home</span></td>
+<td style="text-align:center"><span>object</span></td>
+</tr>
+<tr>
+<td style="text-align:center"><span>all_ball_possession_away</span></td>
+<td style="text-align:center"><span>object</span></td>
+</tr>
+<tr>
+<td style="text-align:center"><span>all_shots_on_target_home</span></td>
+<td style="text-align:center"><span>float64</span></td>
+</tr>
+<tr>
+<td style="text-align:center"><span>all_shots_on_target_away</span></td>
+<td style="text-align:center"><span>float64</span></td>
+</tr>
+<tr>
+<td style="text-align:center"><span>all_shots_off_target_home</span></td>
+<td style="text-align:center"><span>float64</span></td>
+</tr>
+<tr>
+<td style="text-align:center"><span>all_shots_off_target_away</span></td>
+<td style="text-align:center"><span>float64</span></td>
+</tr>
+<tr>
+<td style="text-align:center"><span>all_corner_kicks_home</span></td>
+<td style="text-align:center"><span>float64</span></td>
+</tr>
+<tr>
+<td style="text-align:center"><span>all_corner_kicks_away</span></td>
+<td style="text-align:center"><span>float64</span></td>
+</tr>
+<tr>
+<td style="text-align:center"><span>all_fouls_home</span></td>
+<td style="text-align:center"><span>float64</span></td>
+</tr>
+<tr>
+<td style="text-align:center"><span>all_fouls_away</span></td>
+<td style="text-align:center"><span>float64</span></td>
+</tr>
+<tr>
+<td style="text-align:center"><span>all_yellow_cards_home</span></td>
+<td style="text-align:center"><span>float64</span></td>
+</tr>
+<tr>
+<td style="text-align:center"><span>all_yellow_cards_away</span></td>
+<td style="text-align:center"><span>float64</span></td>
+</tr>
+<tr>
+<td style="text-align:center"><span>all_goalkeeper_saves_home</span></td>
+<td style="text-align:center"><span>float64</span></td>
+</tr>
+<tr>
+<td style="text-align:center"><span>all_goalkeeper_saves_away</span></td>
+<td style="text-align:center"><span>float64</span></td>
+</tr>
+<tr>
+<td style="text-align:center"><span>people_vote_1</span></td>
+<td style="text-align:center"><span>float64</span></td>
+</tr>
+<tr>
+<td style="text-align:center"><span>people_vote_x</span></td>
+<td style="text-align:center"><span>float64</span></td>
+</tr>
+<tr>
+<td style="text-align:center"><span>people_vote_2</span></td>
+<td style="text-align:center"><span>float64</span></td>
+</tr>
+<tr>
+<td style="text-align:center"><span>name_manager_home</span></td>
+<td style="text-align:center"><span>object</span></td>
+</tr>
+<tr>
+<td style="text-align:center"><span>id_manager_home</span></td>
+<td style="text-align:center"><span>float64</span></td>
+</tr>
+<tr>
+<td style="text-align:center"><span>name_manager_away</span></td>
+<td style="text-align:center"><span>object</span></td>
+</tr>
+<tr>
+<td style="text-align:center"><span>id_manager_away</span></td>
+<td style="text-align:center"><span>float64</span></td>
+</tr>
+<tr>
+<td style="text-align:center"><span>penalty</span></td>
+<td style="text-align:center"><span>float64</span></td>
+</tr>
+<tr>
+<td style="text-align:center"><span>varDecision</span></td>
+<td style="text-align:center"><span>float64</span></td>
+</tr>
+</tbody>
+</table><p><span>Analizzando la tabella abbiamo deciso di procedere con la trasformazione delle colonne in formato </span><em><span>object</span></em><span> (ovvero stringa), in interi o float; per fare ciò abbiamo utilizzato la libreria </span><strong><span>preprocessing</span></strong><span> messa a disposizione da </span><strong><span>sklearn</span></strong><span>.</span></p><pre><code>#trasformiamo le stringhe in numeri
+from sklearn import preprocessing
+
+le = preprocessing.LabelEncoder()
+#in input label da trasformare
+le.fit(["tournament_name", "country", "city", "stadium",
+"referee", "home_formation", "away_formation"])
+#si attua la codifica sulle colonne del dataset
+df["tournament_name"] = le.fit_transform(df.tournament_name)
+df["country"] = le.fit_transform(df.country)
+df["city"] = le.fit_transform(df.city)
+df["stadium"] = le.fit_transform(df.stadium)
+df["referee"] = le.fit_transform(df.referee)
+df["home_formation"] = le.fit_transform(df.home_formation)
+df["away_formation"] = le.fit_transform(df.away_formation)
+</code></pre><p><span>Per quanto riguarda le colonne </span><em><span>all_ball_possession_home</span></em><span> e </span><em><span>all_ball_possession_away</span></em><span>, applichiamo la seguente funzione per trasformarle da stringhe a float rimuovendo il segno ‘%’:</span></p><pre><code>#convertiamo all_ball_possession_home e all_ball_possession_away da stringhe a float
+def percentToDouble(s):
+    return float(s.replace("%",""))
+
+df["all_ball_possession_home"] = df["all_ball_possession_home"].apply(percentToDouble)
+df["all_ball_possession_away"] = df["all_ball_possession_away"].apply(percentToDouble)
+</code></pre><p><span>Infine convertiamo la colonna hasGlobalHighlights da boolean a intero, nel seguente modo:</span></p><pre><code>#convertiamo hasGlobalHighlights da boolean ad int
+df["hasGlobalHighlights"] = df["hasGlobalHighlights"].astype(int)
+</code></pre><p><span>Avendo a disposisizone sia le colonne </span><em><span>“homeTeam”, “awayTeam”, “name_manager_home” e “name_manager_away”</span></em><span>, che le colonne con i rispettivi identificativi: </span><em><span>“homeTeam_id”, “awayTeam_id”, “name_manager_home_id”, “name_manager_away_id”</span></em><span>; abbiamo provveduto alla eliminazione delle prime.</span></p><pre><code>labels = ["homeTeam", "awayTeam", "name_manager_home", "name_manager_away"]
+df.drop(columns=labels, inplace=True)
+</code></pre><div class="alert alert-info">
+<p><span>Dopo questo processo di pulizia abbiamo in output il dataset denominato </span><em><span>dataset_clean_allin_number.csv</span></em><span>.</span></p>
+</div><h4 id="Risoluzione-problemi-di-data-leakage" data-id="Risoluzione-problemi-di-data-leakage"><a class="anchor hidden-xs" href="#Risoluzione-problemi-di-data-leakage" title="Risoluzione-problemi-di-data-leakage"><span class="octicon octicon-link"></span></a><span>Risoluzione problemi di </span><em><span>data leakage</span></em></h4><p><span>Considerando quanto evidenziato nella sezione di </span><a href="##Data-Understanding"><span>Data Understanding</span></a><span> riguardo il problema di data leakage delle statistiche, abbiamo deciso di adottare come soluzione il calcolo delle medie delle seguenti colonne:</span></p><ul>
+<li><span>all_ball_possession_home</span></li>
+<li><span>all_ball_possession_away</span></li>
+<li><span>all_shots_on_target_home</span></li>
+<li><span>all_shots_on_target_away</span></li>
+<li><span>all_shots_off_target_home</span></li>
+<li><span>all_shots_off_target_away</span></li>
+<li><span>all_corner_kicks_home</span></li>
+<li><span>all_corner_kicks_away</span></li>
+<li><span>all_fouls_home</span></li>
+<li><span>all_fouls_away</span></li>
+<li><span>all_yellow_cards_home</span></li>
+<li><span>all_yellow_cards_away</span></li>
+<li><span>all_goalkeeper_saves_home</span></li>
+<li><span>all_goalkeeper_saves_away</span></li>
+</ul><p><span>La media per ogni statistica è calcolata sulla base delle ultime 5 partite giocate dalle squadre, in questo modo si assegna ad ogni squadra una condizione di forma in base alla quale verranno fatte le predizioni.</span><br>
+<span>Di seguito riportiamo il frammento di codice utilizzato per il calcolo della media per le statistiche della squadra di casa (lo stesso è stato fatto per la squadra ospite).</span></p><pre><code># 5 partite precedenti della squadra di casa
+row_finale["all_ball_possession_home"] = precs_home["all_ball_possession"].mean()
+row_finale["all_shots_on_target_home"] = precs_home["all_shots_on_target"].mean()
+row_finale["all_shots_off_target_home"] = precs_home["all_shots_off_target"].mean()
+row_finale["all_corner_kicks_home"] = precs_home["all_corner_kicks"].mean()
+row_finale["all_fouls_home"] = precs_home["all_fouls"].mean()
+row_finale["all_yellow_cards_home"] = precs_home["all_yellow_cards"].mean()
+row_finale["all_goalkeeper_saves_home"] = precs_home["all_goalkeeper_saves"].mean()
+</code></pre><p><span>Prima di effettuare le medie, abbiamo provveduto a calcolare la variabile </span><em><span>target</span></em><span>. Dato che si vuole predire diversi risultati, abbiamo creato un dataset per ogni pronostico con il relativo valore per la variabile </span><em><span>target</span></em><span>.</span></p><pre><code># creiamo variabile target prima di calcolare le medie
+
+# 0 -&gt; pareggio
+def result_1x2(row):
+  if (row['homeScore'] &gt; row['awayScore']):
+    return 1
+  elif (row['homeScore'] &lt; row['awayScore']):
+    return 2
+  else:
+    return 0
+
+def over_under(row):
+  if (row['homeScore'] + row['awayScore']) &gt; 2.5:
+    return 1
+  else:
+    return 0
+
+def gg_ng(row):
+  if(row['homeScore'] &gt;= 1 and row['awayScore'] &gt;= 1):
+    return 1
+  else:
+    return 0
+
+def over_under_yellow(row):
+  if (row['all_yellow_cards_home'] + row['all_yellow_cards_away']) &gt; 5.5:
+    return 1
+  else:
+    return 0
+
+# 0 -&gt; pareggio
+def corner_1x2(row):
+  if (row['all_corner_kicks_home'] &gt; row['all_corner_kicks_away']):
+    return 1
+  elif (row['all_corner_kicks_home'] &lt; row['all_corner_kicks_away']):
+    return 2
+  else:
+    return 0
+
+def over_under_corner(row):
+  if(row['all_corner_kicks_home'] + row['all_corner_kicks_away'] &gt; 7.5):
+    return 1
+  else:
+    return 0
+
+# esempio di come calcoliamo la variabile target per la predizione Under/Over corner
+df['target'] = df.apply(over_under_corner, axis=1)
+df
+</code></pre><p><span>Inoltre le seguenti colonne: </span><em><span>homeScore_period1</span></em><span>, </span><em><span>homeScore</span></em><span>, </span><em><span>awayScore_period1</span></em><span>, </span><em><span>awayScore</span></em><span>, </span><em><span>hasGlobalHighlights</span></em><span>, </span><em><span>penalty</span></em><span>, </span><em><span>varDecision</span></em><span>, </span><em><span>home_formation</span></em><span> e </span><em><span>away_formation</span></em><span>, non saranno disponibili al momento della predizione. Di conseguenza si provvede alla loro eliminazione.</span></p><pre><code>labels = ['homeScore_period1', 'homeScore', 'awayScore_period1', 'awayScore',
+'hasGlobalHighlights', 'penalty', 'varDecision', 'home_formation', 'away_formation']
+df.drop(columns=labels, inplace=True)
+</code></pre><h3 id="Data-Scaling" data-id="Data-Scaling"><a class="anchor hidden-xs" href="#Data-Scaling" title="Data-Scaling"><span class="octicon octicon-link"></span></a><span>Data Scaling</span></h3><p><span>In questa fase provvediamo allo </span><em><span>scaling</span></em><span> delle features, per fare ciò plottiamo prima di tutto le loro distribuzioni.</span></p><img src="https://i.imgur.com/fxqSlCf.png" height="300"><img src="https://i.imgur.com/ntM7YUI.png" height="300"><img src="https://i.imgur.com/DrsZH3C.png" height="300"><img src="https://i.imgur.com/T3BUhoG.png" height="300"><img src="https://i.imgur.com/CNCo250.png" height="300"><img src="https://i.imgur.com/oTM2FIV.png" height="300"><img src="https://i.imgur.com/HsURE0n.png" height="300"><img src="https://i.imgur.com/I121WG5.png" height="300"><img src="https://i.imgur.com/cQSC9XR.png" height="300"><img src="https://i.imgur.com/dioFBdF.png" height="300"><img src="https://i.imgur.com/RuFOSsY.png" height="300"><img src="https://i.imgur.com/MjIcpAH.png" height="300"><img src="https://i.imgur.com/ntoF0VJ.png" height="300"><img src="https://i.imgur.com/E44hdmK.png" height="300"><img src="https://i.imgur.com/WCug4Tk.png" height="300"><img src="https://i.imgur.com/Zvm6pRb.png" height="300"><img src="https://i.imgur.com/3kV38Vl.png" height="300"><p><span>I grafici sopra riportati, evidenziano che:</span></p><ul>
+<li><span>all_ball_possession_away: ha una distribuzione gaussiana</span></li>
+<li><span>all_shots_on_target_home: ha una distribuzione gaussiana</span></li>
+<li><span>all_shots_on_target_away: ha una distribuzione gaussiana</span></li>
+<li><span>all_shots_off_target_home: ha una distribuzione gaussiana</span></li>
+<li><span>all_shots_off_target_away: ha una distribuzione gaussiana</span></li>
+<li><span>all_corner_kicks_home: ha una distribuzione gaussiana</span></li>
+<li><span>all_corner_kicks_away: ha una distribuzione gaussiana</span></li>
+<li><span>all_fouls_home: ha una distribuzione gaussiana, c’è un outlier “valore anomalo”</span></li>
+<li><span>all_fouls_away: ha una distribuzione gaussiana, c’è un outlier “valore anomalo”</span></li>
+<li><span>all_yellow_cards_home: ha una distribuzione gaussiana</span></li>
+<li><span>all_yellow_cards_away: ha una distribuzione gaussiana</span></li>
+<li><span>all_goalkeeper_saves_home: ha una distribuzione gaussiana</span></li>
+<li><span>all_goalkeeper_saves_away: ha una distribuzione gaussiana</span></li>
+<li><span>people_vote_1: </span><strong><span>non</span></strong><span> ha una distribuzione gaussiana</span></li>
+<li><span>people_vote_x: </span><strong><span>non</span></strong><span> ha una distribuzione gaussiana</span></li>
+<li><span>people_vote_2: </span><strong><span>non</span></strong><span> ha una distribuzione gaussiana</span></li>
+</ul><p><span>Considerando le seguenti distribuzioni, per normalizzare i dati abbiamo deciso di adottare la metodologia </span><em><span>z-score</span></em><span>, anche chiamata </span><em><span>Standard Scaling</span></em><span>. Riportiamo di seguito il codice utilizzato:</span></p><pre><code>from sklearn.preprocessing import StandardScaler
+
+scaler = StandardScaler().fit(X)
+X_scaling = scaler.transform(X)
+X_scaled = DataFrame(X_scaling, columns=X.columns)
+</code></pre><h3 id="Feature-Selection" data-id="Feature-Selection"><a class="anchor hidden-xs" href="#Feature-Selection" title="Feature-Selection"><span class="octicon octicon-link"></span></a><span>Feature Selection</span></h3><p><span>Per la selezione delle features utili alle predizioni abbiamo provato empiricamente varie soluzioni tra cui:</span></p><ul>
+<li><strong><span>ExtraTreesClassifier</span></strong><span>: utilizzato per plottare le features più importanti, per poi successivamente selezionarle.</span></li>
+<li><strong><span>SelectKBest</span></strong><span>: feature selection supervisionata, con la quale abbiamo provato empiricamente i vari valori di k, per poi utilizzare il valore con il quale ottenevamo la migliore accuracy per le predizioni.</span></li>
+<li><strong><span>VarianceThreshold</span></strong><span>: feature selection non supervisionata, tramite la quale rimuovevamo tutte le features la cui varianza non soddisfava una certa soglia.</span></li>
+</ul><p><span>Dopo vari tentativi abbiamo deciso di utilizzare la </span><strong><span>SelectKBest</span></strong><span>, con la quale abbiamo osservato dei risultati migliori per quanto riguardava l’accuracy delle predizioni.</span></p><p><span>Riportiamo un frammento di codice:</span></p><pre><code># feature selection supervised
+from sklearn.feature_selection import SelectKBest
+from sklearn.feature_selection import f_classif
+
+fs = SelectKBest(score_func=f_classif,k=10)
+fs.fit_transform(X_scaled, y)
+</code></pre><p><span>Riguardo la scelta della funzione </span><em><span>score_function</span></em><span> della </span><em><span>SelectKBest</span></em><span> abbiamo deciso di utilizzare la </span><strong><span>f_classif</span></strong><span>, basata sulla </span><em><span>ANOVA F-value</span></em><span>, con la quale abbiamo otteuto i risultati migliori.</span></p><p><span>Infine, per quanto riguarda il valore di </span><em><span>k</span></em><span>, per ogni predizione abbiamo provato empiricamente i vari possibili valori per poi scegliere il valore migliore in base all’accuracy del modello predittivo.</span></p><p><span>Di seguito riportiamo le accuracy ottenute variando il k per la predizione </span><em><span>Torali Corne (Over / Under 7.5)</span></em><span>.</span></p><table>
+<thead>
+<tr>
+<th style="text-align:center"><span>k</span></th>
+<th style="text-align:center"><span>Accuracy</span></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><span>5</span></td>
+<td style="text-align:center"><span>0.670</span></td>
+</tr>
+<tr>
+<td style="text-align:center"><span>6</span></td>
+<td style="text-align:center"><span>0.682</span></td>
+</tr>
+<tr>
+<td style="text-align:center"><span>7</span></td>
+<td style="text-align:center"><span>0.685</span></td>
+</tr>
+<tr>
+<td style="text-align:center"><span>8</span></td>
+<td style="text-align:center"><span>0.680</span></td>
+</tr>
+<tr>
+<td style="text-align:center"><span>9</span></td>
+<td style="text-align:center"><span>0.690</span></td>
+</tr>
+<tr>
+<td style="text-align:center"><span>10</span></td>
+<td style="text-align:center"><span>0.695</span></td>
+</tr>
+<tr>
+<td style="text-align:center"><span>11</span></td>
+<td style="text-align:center"><span>0.689</span></td>
+</tr>
+<tr>
+<td style="text-align:center"><span>…</span></td>
+<td style="text-align:center"><span>…</span></td>
+</tr>
+</tbody>
+</table><h3 id="Data-Balancing" data-id="Data-Balancing"><a class="anchor hidden-xs" href="#Data-Balancing" title="Data-Balancing"><span class="octicon octicon-link"></span></a><span>Data Balancing</span></h3><h4 id="Splitting-Dataset" data-id="Splitting-Dataset"><a class="anchor hidden-xs" href="#Splitting-Dataset" title="Splitting-Dataset"><span class="octicon octicon-link"></span></a><span>Splitting Dataset</span></h4><p><span>Prima di arrivare alla fase di addestramento, abbiamo diviso il dataset in </span><em><span>Training Set</span></em><span> e in </span><em><span>Test Set</span></em><span> nel seguento modo:</span></p><pre><code>from sklearn.model_selection import train_test_split
+
+X_train, X_test, y_train, y_test =
+train_test_split(X_selection, y, test_size=0.3)
+</code></pre><p><span>In questo modo abbiamo diviso i dati in un rapporto 70:30, ovvero il 70% dei dati verrà utilizzato per addestrare il modello mentre il 30% verrà utilizzato per testare il modello.</span></p><h4 id="Oversampling-e-Undersampling" data-id="Oversampling-e-Undersampling"><a class="anchor hidden-xs" href="#Oversampling-e-Undersampling" title="Oversampling-e-Undersampling"><span class="octicon octicon-link"></span></a><span>Oversampling e Undersampling</span></h4><p><span>Per effettuare il balancing del training set, abbiamo rappresentato graficamente il numero di occorenze di ogni classe.</span></p><h6 id="Riportiamo-due-esempi-di-grafici-prima-del-balancing" data-id="Riportiamo-due-esempi-di-grafici-prima-del-balancing"><a class="anchor hidden-xs" href="#Riportiamo-due-esempi-di-grafici-prima-del-balancing" title="Riportiamo-due-esempi-di-grafici-prima-del-balancing"><span class="octicon octicon-link"></span></a><span>Riportiamo due esempi di grafici prima del balancing.</span></h6><blockquote>
+<p><strong><span>Grafico 1</span></strong></p>
+<p><img src="https://i.imgur.com/LYMWRWO.png" alt="" loading="lazy"></p>
+</blockquote><blockquote>
+<p><strong><span>Grafico 2</span></strong></p>
+<p><img src="https://i.imgur.com/Xe5wAgf.png" alt="" loading="lazy"></p>
+</blockquote><p><span>Per la maggior parte dei traning set si è verificata la situazione del </span><em><span>Grafico 1</span></em><span>, in questo caso abbiamo proceduto al bilanciamento del traning set tramite la tecnica di </span><strong><span>oversampling</span></strong><span>. Più precisimante tramite il metodo </span><strong><span>SMOTE</span></strong><span>, creando in questo modo istanze “artificiali” della classe di minoranza, mitigando la probelmatica della duplicazione di istanze che potrebbero portare ad </span><em><span>overfitting</span></em><span>.</span></p><pre><code>from imblearn.over_sampling import SMOTE
+
+sm = SMOTE(random_state=42)
+X_train_res, y_train_res = sm.fit_resample(X_train, y_train)
+</code></pre><p><span>Per la minoranza dei casi si è verificata la situazione del </span><em><span>Grafico 2</span></em><span>, in questo caso abbiamo proceduto al bilanciamento del traineng set tramite la tecnica di </span><strong><span>undersampling</span></strong><span>. Nello specifico abbiamo utilizzato il metodo </span><strong><span>ClusterCentroids</span></strong><span>, eliminando dal training set le istanze più simili, mitigando la problematica della rimozione di istanze particolarmente rilevanti per l’apprendimento del modello.</span></p><pre><code>from imblearn.under_sampling import ClusterCentroids
+
+cc = ClusterCentroids(random_state=42)
+X_train_res, y_train_res = cc.fit_resample(X_train, y_train)
+</code></pre><p><span>Riportiamo di seguito i grafici ottenuti dopo l’oversampling per il grafico 1 e l’undersampling per il grafico 2.</span></p><blockquote>
+<p><strong><span>Grafico 1</span></strong></p>
+<p><img src="https://i.imgur.com/EhnTK51.png" alt="" loading="lazy"></p>
+</blockquote><blockquote>
+<p><strong><span>Grafico 2</span></strong></p>
+<p><img src="https://i.imgur.com/Y0eDhNd.png" alt="" loading="lazy"></p>
+</blockquote><h2 id="Modeling" data-id="Modeling"><a class="anchor hidden-xs" href="#Modeling" title="Modeling"><span class="octicon octicon-link"></span></a><span>Modeling</span></h2><p><span>In questa fase definiamo e implementiamo i nostri agenti.</span></p><p><span>Tutte le predizioni da noi definite hanno un numero discreto di valori quindi è stato deciso di usare un inseme di classificatori, uno per ogni valore da predirre.</span></p><h3 id="Classificatori" data-id="Classificatori"><a class="anchor hidden-xs" href="#Classificatori" title="Classificatori"><span class="octicon octicon-link"></span></a><span>Classificatori</span></h3><p><span>Per ogni variabile dipendente abbiamo creato un classificatore usando diversi algoritmi:</span></p><ul>
+<li>
+<p><span>Naive Bayes</span></p>
+<ul>
+<li><span>Bernoulli</span></li>
+<li><span>Gaussian</span></li>
+</ul>
+</li>
+<li>
+<p><span>Decision Tree</span></p>
+</li>
+<li>
+<p><span>Random Forest</span></p>
+</li>
+</ul><p><span>Successivamente, in fase di evaluation, sono stati selezionati i modelli con le prestazioni migliori.</span></p><h2 id="Evaluation" data-id="Evaluation"><a class="anchor hidden-xs" href="#Evaluation" title="Evaluation"><span class="octicon octicon-link"></span></a><span>Evaluation</span></h2><p><span>Per ogni variabili dipendente abbiamo valutato le prestazioni dei vari algoritmi di classificazione sopracitati. Per sintesi, mostriamo in maniera dettagliata solo i risultati per la predizione “Totali cartellini gialli (Over 5.5/ Under 5.5)”, mentre per le restanti predizioni mostriamo solo l’accuracy.</span></p><h3 id="Totali-cartellini-gialli-Over-55-Under-55" data-id="Totali-cartellini-gialli-Over-55-Under-55"><a class="anchor hidden-xs" href="#Totali-cartellini-gialli-Over-55-Under-55" title="Totali-cartellini-gialli-Over-55-Under-55"><span class="octicon octicon-link"></span></a><span>Totali cartellini gialli (Over 5.5/ Under 5.5)</span></h3><h4 id="Decision-Tree" data-id="Decision-Tree"><a class="anchor hidden-xs" href="#Decision-Tree" title="Decision-Tree"><span class="octicon octicon-link"></span></a><span>Decision Tree</span></h4><table>
+<thead>
+<tr>
+<th><span>class</span></th>
+<th style="text-align:center"><span>precision</span></th>
+<th style="text-align:center"><span>recall</span></th>
+<th style="text-align:center"><span>support</span></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span>Under 5.5</span></td>
+<td style="text-align:center"><span>0.77</span></td>
+<td style="text-align:center"><span>0.73</span></td>
+<td style="text-align:center"><span>5701</span></td>
+</tr>
+<tr>
+<td><span>Over 5.5</span></td>
+<td style="text-align:center"><span>0.27</span></td>
+<td style="text-align:center"><span>0.32</span></td>
+<td style="text-align:center"><span>1787</span></td>
+</tr>
+</tbody>
+</table><h5 id="Accuracy--0628" data-id="Accuracy--0628"><a class="anchor hidden-xs" href="#Accuracy--0628" title="Accuracy--0628"><span class="octicon octicon-link"></span></a><span>Accuracy : 0.628</span></h5><h4 id="Naive-Bayes-Gaussian" data-id="Naive-Bayes-Gaussian"><a class="anchor hidden-xs" href="#Naive-Bayes-Gaussian" title="Naive-Bayes-Gaussian"><span class="octicon octicon-link"></span></a><span>Naive Bayes Gaussian</span></h4><table>
+<thead>
+<tr>
+<th><span>class</span></th>
+<th style="text-align:center"><span>precision</span></th>
+<th style="text-align:center"><span>recall</span></th>
+<th style="text-align:center"><span>support</span></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span>Under 5.5</span></td>
+<td style="text-align:center"><span>0.80</span></td>
+<td style="text-align:center"><span>0.82</span></td>
+<td style="text-align:center"><span>5701</span></td>
+</tr>
+<tr>
+<td><span>Over 5.5</span></td>
+<td style="text-align:center"><span>0.38</span></td>
+<td style="text-align:center"><span>0.35</span></td>
+<td style="text-align:center"><span>1787</span></td>
+</tr>
+</tbody>
+</table><h5 id="Accuracy--071" data-id="Accuracy--071"><a class="anchor hidden-xs" href="#Accuracy--071" title="Accuracy--071"><span class="octicon octicon-link"></span></a><span>Accuracy : 0.71</span></h5><h4 id="Naive-Bayes-Bernoulli" data-id="Naive-Bayes-Bernoulli"><a class="anchor hidden-xs" href="#Naive-Bayes-Bernoulli" title="Naive-Bayes-Bernoulli"><span class="octicon octicon-link"></span></a><span>Naive Bayes Bernoulli</span></h4><table>
+<thead>
+<tr>
+<th><span>class</span></th>
+<th style="text-align:center"><span>precision</span></th>
+<th style="text-align:center"><span>recall</span></th>
+<th style="text-align:center"><span>support</span></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span>Under 5.5</span></td>
+<td style="text-align:center"><span>0.82</span></td>
+<td style="text-align:center"><span>0.62</span></td>
+<td style="text-align:center"><span>5701</span></td>
+</tr>
+<tr>
+<td><span>Over 5.5</span></td>
+<td style="text-align:center"><span>0.32</span></td>
+<td style="text-align:center"><span>0.57</span></td>
+<td style="text-align:center"><span>1787</span></td>
+</tr>
+</tbody>
+</table><h5 id="Accuracy--061" data-id="Accuracy--061"><a class="anchor hidden-xs" href="#Accuracy--061" title="Accuracy--061"><span class="octicon octicon-link"></span></a><span>Accuracy : 0.61</span></h5><h4 id="Random-Forest" data-id="Random-Forest"><a class="anchor hidden-xs" href="#Random-Forest" title="Random-Forest"><span class="octicon octicon-link"></span></a><span>Random Forest</span></h4><table>
+<thead>
+<tr>
+<th><span>class</span></th>
+<th style="text-align:center"><span>precision</span></th>
+<th style="text-align:center"><span>recall</span></th>
+<th style="text-align:center"><span>support</span></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span>Under 5.5</span></td>
+<td style="text-align:center"><span>0.79</span></td>
+<td style="text-align:center"><span>0.88</span></td>
+<td style="text-align:center"><span>5701</span></td>
+</tr>
+<tr>
+<td><span>Over 5.5</span></td>
+<td style="text-align:center"><span>0.38</span></td>
+<td style="text-align:center"><span>0.25</span></td>
+<td style="text-align:center"><span>1787</span></td>
+</tr>
+</tbody>
+</table><h5 id="Accuracy--0725" data-id="Accuracy--0725"><a class="anchor hidden-xs" href="#Accuracy--0725" title="Accuracy--0725"><span class="octicon octicon-link"></span></a><span>Accuracy : 0.725</span></h5><div class="alert alert-info">
+<p><span>Come si può notare i valori di Naive Bayes Gaussian e Random Forest sono chiaramente migliori rispetto agli altri.</span></p>
+</div><p><span>Considerando i risultati ottenuti abbiamo scelto di utilizzare il classificatore </span><strong><span>Random Forest</span></strong><span>.</span></p><hr><h3 id="Accuracy-delle-restanti-predizioni" data-id="Accuracy-delle-restanti-predizioni"><a class="anchor hidden-xs" href="#Accuracy-delle-restanti-predizioni" title="Accuracy-delle-restanti-predizioni"><span class="octicon octicon-link"></span></a><span>Accuracy delle restanti predizioni</span></h3><table>
+<thead>
+<tr>
+<th style="text-align:center"><span>Predizione</span></th>
+<th style="text-align:center"><span>Accuracy del miglior classificatore</span></th>
+<th style="text-align:center"><span>Algoritmo di Classificazione</span></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><span>Entrambe le squadre segnano</span></td>
+<td style="text-align:center"><span>0.51</span></td>
+<td style="text-align:center"><span>Naive Bayes Bernoulli</span></td>
+</tr>
+<tr>
+<td style="text-align:center"><span>Totali Goal (Over 2.5/ Under 2.5)</span></td>
+<td style="text-align:center"><span>0.53</span></td>
+<td style="text-align:center"><span>Naive Bayes Bernoulli</span></td>
+</tr>
+<tr>
+<td style="text-align:center"><span>Totali Corner (Over 7.5/ Under 7.5)</span></td>
+<td style="text-align:center"><span>0.70</span></td>
+<td style="text-align:center"><span>Random Forest</span></td>
+</tr>
+<tr>
+<td style="text-align:center"><span>Totali Corner 1X2</span></td>
+<td style="text-align:center"><span>0.53</span></td>
+<td style="text-align:center"><span>Naive Bayes Bernoulli</span></td>
+</tr>
+<tr>
+<td style="text-align:center"><span>1X2</span></td>
+<td style="text-align:center"><span>0.45</span></td>
+<td style="text-align:center"><span>Naive Bayes Bernoulli</span></td>
+</tr>
+</tbody>
+</table><h2 id="Deployment" data-id="Deployment"><a class="anchor hidden-xs" href="#Deployment" title="Deployment"><span class="octicon octicon-link"></span></a><span>Deployment</span></h2><p><span>Per rendere disponibile il modello agli utenti abbiamo creato una web-app, in cui è possibile visualizzare le partite da disputarsi nelle prossime 24 ore ed ottenere le predizioni.</span><br>
+<span>Considerando le accuracy ottenute per ogni modello, abbiamo scelto di rendere disponibile solo i due modelli con accuracy più alta, ovvero: </span><strong><span>Totali cartellini gialli (Over 5.5/ Under 5.5)</span></strong><span> e </span><strong><span>Totali Corner (Over 7.5/ Under 7.5)</span></strong><span>.</span></p><p><span>I dati necessari per effettuare le predizioni sono sempre reperiti al momento tramite scraping del sito </span><a href="https://www.sofascore.com/" target="_blank" rel="noopener"><span>https://www.sofascore.com/</span></a><span>.</span></p><p><span>Gli utenti potranno accedere alla web-app </span><strong><span>WiseGamble</span></strong><span>, dove visualizzeranno la lista di partite che si disputeranno nell’arco della giornata, con la possibilità di filtrare anche per campionato, e dalla quale sceglieranno la partita per la quale ricevere i pronostici.</span><br>
+<span>Una volta selezionata la partita saranno reindirizzati in un’altra pagina, con tutti i dettagli della partita selezionata, dove potranno visualizzare i pronostici con i rispettivi valori in percentuale di fiducia nella predizione.</span></p><p><span>Nella web-app </span><em><span>WiseGamble</span></em><span> saranno attivi due agenti, ovvero i predittori dei risultati da pronosticare, che di seguito vengono dettagliati.</span></p><h3 id="Ambiente" data-id="Ambiente"><a class="anchor hidden-xs" href="#Ambiente" title="Ambiente"><span class="octicon octicon-link"></span></a><span>Ambiente</span></h3><p><span>I due agenti sono fra di loro simili, ogni agente agisce in modo indipendente rispetto all’altro, si trovano quindi in ambienti indipendenti che hanno le stesse caratteristiche.</span><br>
+<span>Considerando quanto detto, gli ambienti possono essere descritti con la seguente specifica </span><em><span>PEAS</span></em><span>.</span></p><h4 id="Specifica-PEAS" data-id="Specifica-PEAS"><a class="anchor hidden-xs" href="#Specifica-PEAS" title="Specifica-PEAS"><span class="octicon octicon-link"></span></a><span>Specifica PEAS</span></h4><table>
+<thead>
+<tr>
+<th style="text-align:center"><span>Performance</span></th>
+<th style="text-align:center"><span>Environment</span></th>
+<th style="text-align:center"><span>Actuators</span></th>
+<th style="text-align:center"><span>Sensors</span></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><span>La misura di performance dell’agente è l’accuratezza delle predizioni effettuate.</span></td>
+<td style="text-align:center"><span>L’ambiente in cui opera l’agente è la partita da predirre, scelta dall’utente sul sito.</span></td>
+<td style="text-align:center"><span>Gli attuatori dell’agente consistono nei risultati mostrati tramite la web-app </span><em><span>WiseGamble</span></em><span>.</span></td>
+<td style="text-align:center"><span>I sensori dell’agente corrispondono al record contente le informazioni della partita da predirre.</span></td>
+</tr>
+</tbody>
+</table><h4 id="Caratteristiche-dell’ambiente" data-id="Caratteristiche-dell’ambiente"><a class="anchor hidden-xs" href="#Caratteristiche-dell’ambiente" title="Caratteristiche-dell’ambiente"><span class="octicon octicon-link"></span></a><span>Caratteristiche dell’ambiente</span></h4><ul>
+<li><strong><span>Completamente osservabile</span></strong><span>: in quanto tutti i dati della partita da predirre sono noti.</span></li>
+<li><strong><span>Statico</span></strong><span>: perchè durante l’esecuzione dell’agente la partita presa in input, nel dettaglio il record contenente le informazioni della partita, non subisce variazioni.</span></li>
+<li><strong><span>Episodico</span></strong><span>: in quanto ogni partita rappresenta un evento indipendente su cui l’agente agisce.</span></li>
+<li><strong><span>Discreto</span></strong><span>: perchè la partita ha un numero finito di informazioni utilizzate per la predizione.</span></li>
+<li><strong><span>Deterministico</span></strong><span>: in quanto data una determinata partita in input la predizione non cambierà (lo stato successivo dell’ambiente è completamente determinato dallo stato corrente e dall’azione eseguita dall’agente).</span></li>
+<li><strong><span>Singolo</span></strong><span>: in quanto l’agente ad agire nell’ambiente è unico.</span></li>
+</ul><h3 id="Esportazione-dei-modelli" data-id="Esportazione-dei-modelli"><a class="anchor hidden-xs" href="#Esportazione-dei-modelli" title="Esportazione-dei-modelli"><span class="octicon octicon-link"></span></a><span>Esportazione dei modelli</span></h3><p><span>Per poter rendere disponibili i modelli, abbiamo dovuto provvedere all’esportazione di essi. Per fare ciò abbiamo utilizzato la libreria </span><strong><span>joblib</span></strong><span>, nello specifico il metodo </span><strong><span>dump</span></strong><span>.</span></p><pre><code>from joblib import dump
+
+dump(clf_randomForest, 'drive/My Drive/wiseGamble/model/cornerovun75.joblib')
+dump(scaler, 'drive/My Drive/wiseGamble/model/scaler_cornerovun75.joblib')
+</code></pre><p><span>Per il corretto funzionamento dei modelli abbiamo dovuto esportare anche gli scalers utilizzati nelle pipeline, in modo da permetterci di normalizzare i dati presi da </span><em><span>sofascore</span></em><span> per poi darli in input ai modelli che potranno così fornirci una predizione corretta.</span><br>
+<br><br><br>
+<span>Inoltre abbiamo dovuto anche esportare il </span><em><span>Label Encoder</span></em><span>, in quanto alcuni dati presi da sofascore erano stringhe che sono state trasformate, nella fase di pulzia dei dati, in identificativi.</span></p><h2 id="Conclusioni" data-id="Conclusioni"><a class="anchor hidden-xs" href="#Conclusioni" title="Conclusioni"><span class="octicon octicon-link"></span></a><span>Conclusioni</span></h2><p><span>I risultati ottenuti evidenziano che le previsioni di alcuni modelli, come ad esempio il modello predittivo relativo al risultato </span><em><span>1X2</span></em><span>, non sono molto attendibili. Ciò può dipendere dalla qualità dei dati fornita al modello o anche dal fatto che il risultato nella realtà è difficilmente prevedibile.</span></p><p><span>Infine possiamo evidenziare che i due modelli predittivi, riguardanti i cartellini gialli e i corner, si sono distinti in quanto hanno raggiunto un accuracy superiore al 60% imposta come obiettivo nei </span><a href="#######Business-Success-Criteria"><span>business success criteria</span></a><span> definiti all’inizio del progetto.</span></p><hr><p><span>Concludiamo augurandovi</span></p><p><span>BUONA SCOMMESSA…</span></p></div>
+    <div class="ui-toc dropup unselectable hidden-print" style="display:none;">
+        <div class="pull-right dropdown">
+            <a id="tocLabel" class="ui-toc-label btn btn-default" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" title="Table of content">
+                <i class="fa fa-bars"></i>
+            </a>
+            <ul id="ui-toc" class="ui-toc-dropdown dropdown-menu" aria-labelledby="tocLabel">
+                <div class="toc"><ul class="nav">
+<li class=""><a href="#WiseGamble" title="WiseGamble">WiseGamble</a><ul class="nav">
+<li class=""><a href="#Introduzione" title="Introduzione">Introduzione</a></li>
+<li><a href="#Business-Understanding" title="Business Understanding">Business Understanding</a></li>
+<li><a href="#Data-Understanding" title="Data Understanding">Data Understanding</a><ul class="nav">
+<li><a href="#Data-Collection" title="Data Collection">Data Collection</a></li>
+<li><a href="#Data-Analysis" title="Data Analysis">Data Analysis</a></li>
+</ul>
+</li>
+<li><a href="#Data-Preparation" title="Data Preparation">Data Preparation</a><ul class="nav">
+<li><a href="#Data-Cleaning" title="Data Cleaning">Data Cleaning</a></li>
+<li><a href="#Data-Scaling" title="Data Scaling">Data Scaling</a></li>
+<li><a href="#Feature-Selection" title="Feature Selection">Feature Selection</a></li>
+<li><a href="#Data-Balancing" title="Data Balancing">Data Balancing</a></li>
+</ul>
+</li>
+<li><a href="#Modeling" title="Modeling">Modeling</a><ul class="nav">
+<li><a href="#Classificatori" title="Classificatori">Classificatori</a></li>
+</ul>
+</li>
+<li><a href="#Evaluation" title="Evaluation">Evaluation</a><ul class="nav">
+<li><a href="#Totali-cartellini-gialli-Over-55-Under-55" title="Totali cartellini gialli (Over 5.5/ Under 5.5)">Totali cartellini gialli (Over 5.5/ Under 5.5)</a></li>
+<li><a href="#Accuracy-delle-restanti-predizioni" title="Accuracy delle restanti predizioni">Accuracy delle restanti predizioni</a></li>
+</ul>
+</li>
+<li><a href="#Deployment" title="Deployment">Deployment</a><ul class="nav">
+<li><a href="#Ambiente" title="Ambiente">Ambiente</a></li>
+<li><a href="#Esportazione-dei-modelli" title="Esportazione dei modelli">Esportazione dei modelli</a></li>
+</ul>
+</li>
+<li><a href="#Conclusioni" title="Conclusioni">Conclusioni</a></li>
+</ul>
+</li>
+</ul>
+</div><div class="toc-menu"><a class="expand-toggle" href="#">Expand all</a><a class="back-to-top" href="#">Back to top</a><a class="go-to-bottom" href="#">Go to bottom</a></div>
+            </ul>
+        </div>
+    </div>
+    <div id="ui-toc-affix" class="ui-affix-toc ui-toc-dropdown unselectable hidden-print" data-spy="affix" style="top:17px;display:none;" null null>
+        <div class="toc"><ul class="nav">
+<li class=""><a href="#WiseGamble" title="WiseGamble">WiseGamble</a><ul class="nav">
+<li class=""><a href="#Introduzione" title="Introduzione">Introduzione</a></li>
+<li class=""><a href="#Business-Understanding" title="Business Understanding">Business Understanding</a></li>
+<li class=""><a href="#Data-Understanding" title="Data Understanding">Data Understanding</a><ul class="nav">
+<li class=""><a href="#Data-Collection" title="Data Collection">Data Collection</a></li>
+<li class=""><a href="#Data-Analysis" title="Data Analysis">Data Analysis</a></li>
+</ul>
+</li>
+<li class=""><a href="#Data-Preparation" title="Data Preparation">Data Preparation</a><ul class="nav">
+<li class=""><a href="#Data-Cleaning" title="Data Cleaning">Data Cleaning</a></li>
+<li class=""><a href="#Data-Scaling" title="Data Scaling">Data Scaling</a></li>
+<li class=""><a href="#Feature-Selection" title="Feature Selection">Feature Selection</a></li>
+<li class=""><a href="#Data-Balancing" title="Data Balancing">Data Balancing</a></li>
+</ul>
+</li>
+<li class=""><a href="#Modeling" title="Modeling">Modeling</a><ul class="nav">
+<li class=""><a href="#Classificatori" title="Classificatori">Classificatori</a></li>
+</ul>
+</li>
+<li class=""><a href="#Evaluation" title="Evaluation">Evaluation</a><ul class="nav">
+<li class=""><a href="#Totali-cartellini-gialli-Over-55-Under-55" title="Totali cartellini gialli (Over 5.5/ Under 5.5)">Totali cartellini gialli (Over 5.5/ Under 5.5)</a></li>
+<li class=""><a href="#Accuracy-delle-restanti-predizioni" title="Accuracy delle restanti predizioni">Accuracy delle restanti predizioni</a></li>
+</ul>
+</li>
+<li class=""><a href="#Deployment" title="Deployment">Deployment</a><ul class="nav">
+<li class=""><a href="#Ambiente" title="Ambiente">Ambiente</a></li>
+<li class=""><a href="#Esportazione-dei-modelli" title="Esportazione dei modelli">Esportazione dei modelli</a></li>
+</ul>
+</li>
+<li class=""><a href="#Conclusioni" title="Conclusioni">Conclusioni</a></li>
+</ul>
+</li>
+</ul>
+</div><div class="toc-menu"><a class="expand-toggle" href="#">Expand all</a><a class="back-to-top" href="#">Back to top</a><a class="go-to-bottom" href="#">Go to bottom</a></div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gist-embed/2.6.0/gist-embed.min.js" integrity="sha256-KyF2D6xPIJUW5sUDSs93vWyZm+1RzIpKCexxElmxl8g=" crossorigin="anonymous" defer></script>
+    <script>
+        var markdown = $(".markdown-body");
+        //smooth all hash trigger scrolling
+        function smoothHashScroll() {
+            var hashElements = $("a[href^='#']").toArray();
+            for (var i = 0; i < hashElements.length; i++) {
+                var element = hashElements[i];
+                var $element = $(element);
+                var hash = element.hash;
+                if (hash) {
+                    $element.on('click', function (e) {
+                        // store hash
+                        var hash = this.hash;
+                        if ($(hash).length <= 0) return;
+                        // prevent default anchor click behavior
+                        e.preventDefault();
+                        // animate
+                        $('body, html').stop(true, true).animate({
+                            scrollTop: $(hash).offset().top
+                        }, 100, "linear", function () {
+                            // when done, add hash to url
+                            // (default click behaviour)
+                            window.location.hash = hash;
+                        });
+                    });
+                }
+            }
+        }
+
+        smoothHashScroll();
+        var toc = $('.ui-toc');
+        var tocAffix = $('.ui-affix-toc');
+        var tocDropdown = $('.ui-toc-dropdown');
+        //toc
+        tocDropdown.click(function (e) {
+            e.stopPropagation();
+        });
+
+        var enoughForAffixToc = true;
+
+        function generateScrollspy() {
+            $(document.body).scrollspy({
+                target: ''
+            });
+            $(document.body).scrollspy('refresh');
+            if (enoughForAffixToc) {
+                toc.hide();
+                tocAffix.show();
+            } else {
+                tocAffix.hide();
+                toc.show();
+            }
+            $(document.body).scroll();
+        }
+
+        function windowResize() {
+            //toc right
+            var paddingRight = parseFloat(markdown.css('padding-right'));
+            var right = ($(window).width() - (markdown.offset().left + markdown.outerWidth() - paddingRight));
+            toc.css('right', right + 'px');
+            //affix toc left
+            var newbool;
+            var rightMargin = (markdown.parent().outerWidth() - markdown.outerWidth()) / 2;
+            //for ipad or wider device
+            if (rightMargin >= 133) {
+                newbool = true;
+                var affixLeftMargin = (tocAffix.outerWidth() - tocAffix.width()) / 2;
+                var left = markdown.offset().left + markdown.outerWidth() - affixLeftMargin;
+                tocAffix.css('left', left + 'px');
+            } else {
+                newbool = false;
+            }
+            if (newbool != enoughForAffixToc) {
+                enoughForAffixToc = newbool;
+                generateScrollspy();
+            }
+        }
+        $(window).resize(function () {
+            windowResize();
+        });
+        $(document).ready(function () {
+            windowResize();
+            generateScrollspy();
+        });
+
+        //remove hash
+        function removeHash() {
+            window.location.hash = '';
+        }
+
+        var backtotop = $('.back-to-top');
+        var gotobottom = $('.go-to-bottom');
+
+        backtotop.click(function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            if (scrollToTop)
+                scrollToTop();
+            removeHash();
+        });
+        gotobottom.click(function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            if (scrollToBottom)
+                scrollToBottom();
+            removeHash();
+        });
+
+        var toggle = $('.expand-toggle');
+        var tocExpand = false;
+
+        checkExpandToggle();
+        toggle.click(function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            tocExpand = !tocExpand;
+            checkExpandToggle();
+        })
+
+        function checkExpandToggle () {
+            var toc = $('.ui-toc-dropdown .toc');
+            var toggle = $('.expand-toggle');
+            if (!tocExpand) {
+                toc.removeClass('expand');
+                toggle.text('Expand all');
+            } else {
+                toc.addClass('expand');
+                toggle.text('Collapse all');
+            }
+        }
+
+        function scrollToTop() {
+            $('body, html').stop(true, true).animate({
+                scrollTop: 0
+            }, 100, "linear");
+        }
+
+        function scrollToBottom() {
+            $('body, html').stop(true, true).animate({
+                scrollTop: $(document.body)[0].scrollHeight
+            }, 100, "linear");
+        }
+    </script>
             </div>
         </section>
     </main>
