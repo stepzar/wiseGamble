@@ -1,3 +1,4 @@
+<img src="https://user-images.githubusercontent.com/20650309/154808592-a7f936d2-5d9e-49c8-9fba-790b5263d531.png" alt="WiseGamble" width="200">
 
 # WiseGamble
 ### Pronostici calcistici
@@ -23,6 +24,11 @@ Il dataset utilizzato per l'addestramento contiene le partite dal 2015 al 2021 d
 - Eliteserien
 - Lech pozann (polonia)
 Quindi sarà possibile accedere ai pronostici solo per le partite dei campionati sopra elencati.
+
+
+https://user-images.githubusercontent.com/20650309/154808824-d0f44b08-026d-4420-9295-0d9900dad7d4.mov
+
+
 
 ## Struttura
 Avviando la web-app *WiseGamble* si accede alla pagina *Home* dove è possibile visualizzare una breve descrizione di cosa offre il sito, una breve descrizione dei passi seguiti per la realizzazione dei modelli, alcune FAQ e la lista dei membri del team di WiseGamble.
