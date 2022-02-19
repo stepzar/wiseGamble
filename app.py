@@ -13,7 +13,8 @@ def index():
 
 @app.route('/documentazione')
 def documentazionePage():
-    return render_template('documentazione.html')
+    date = datetime.today().strftime('%Y-%m-%d')
+    return render_template('documentazione.html', date=date)
 
 @app.route('/partite/<date>&<league>')
 def partitePage(date, league):

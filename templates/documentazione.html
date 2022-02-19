@@ -2,21 +2,31 @@
 
 {% block head %}
     <title>WiseGamble - Documentazione</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css" integrity="sha256-3iu9jgsy9TpTwXKb7bNQzqWekRX7pPK+2OLj3R922fo=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/octicons/3.5.0/octicons.min.css" integrity="sha256-QiWfLIsCT02Sdwkogf6YMiQlj4NE84MKkzEMkZnMGdg=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.1/themes/prism.min.css" integrity="sha256-vtR0hSWRc3Tb26iuN2oZHt3KRUomwTufNIf5/4oeCyg=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@hackmd/emojify.js@2.1.0/dist/css/basic/emojify.min.css" integrity="sha256-UOrvMOsSDSrW6szVLe8ZDZezBxh5IoIfgTwdNDgTjiU=" crossorigin="anonymous" />
+    <style>
+        @import url(https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i|Source+Code+Pro:300,400,500|Source+Sans+Pro:300,300i,400,400i,600,600i|Source+Serif+Pro&subset=latin-ext);.hljs{display:block;background:#fff;padding:.5em;color:#333;overflow-x:auto}.hljs-comment,.hljs-meta{color:#969896}.hljs-emphasis,.hljs-quote,.hljs-string,.hljs-strong,.hljs-template-variable,.hljs-variable{color:#df5000}.hljs-keyword,.hljs-selector-tag,.hljs-type{color:#a71d5d}.hljs-attribute,.hljs-bullet,.hljs-literal,.hljs-number,.hljs-symbol{color:#0086b3}.hljs-built_in,.hljs-builtin-name{color:#005cc5}.hljs-name,.hljs-section{color:#63a35c}.hljs-tag{color:#333}.hljs-attr,.hljs-selector-attr,.hljs-selector-class,.hljs-selector-id,.hljs-selector-pseudo,.hljs-title{color:#795da3}.hljs-addition{color:#55a532;background-color:#eaffea}.hljs-deletion{color:#bd2c00;background-color:#ffecec}.hljs-link{text-decoration:underline}.markdown-body{font-size:16px;line-height:1.5;word-wrap:break-word}.markdown-body:after,.markdown-body:before{display:table;content:""}.markdown-body:after{clear:both}.markdown-body>:first-child{margin-top:0!important}.markdown-body>:last-child{margin-bottom:0!important}.markdown-body a:not([href]){color:inherit;text-decoration:none}.markdown-body .absent{color:#c00}.markdown-body .anchor{float:left;padding-right:4px;margin-left:-20px;line-height:1}.markdown-body .anchor:focus{outline:none}.markdown-body blockquote,.markdown-body dl,.markdown-body ol,.markdown-body p,.markdown-body pre,.markdown-body table,.markdown-body ul{margin-top:0;margin-bottom:16px}.markdown-body hr{height:.25em;padding:0;margin:24px 0;background-color:#e7e7e7;border:0}.markdown-body blockquote{font-size:16px;padding:0 1em;color:#777;border-left:.25em solid #ddd}.markdown-body blockquote>:first-child{margin-top:0}.markdown-body blockquote>:last-child{margin-bottom:0}.markdown-body kbd,.popover kbd{display:inline-block;padding:3px 5px;font-size:11px;line-height:10px;color:#555;vertical-align:middle;background-color:#fcfcfc;border:1px solid #ccc;border-bottom-color:#bbb;border-radius:3px;box-shadow:inset 0 -1px 0 #bbb}.markdown-body .loweralpha{list-style-type:lower-alpha}.markdown-body h1,.markdown-body h2,.markdown-body h3,.markdown-body h4,.markdown-body h5,.markdown-body h6{margin-top:24px;margin-bottom:16px;font-weight:600;line-height:1.25}.markdown-body h1 .octicon-link,.markdown-body h2 .octicon-link,.markdown-body h3 .octicon-link,.markdown-body h4 .octicon-link,.markdown-body h5 .octicon-link,.markdown-body h6 .octicon-link{color:#000;vertical-align:middle;visibility:hidden}.markdown-body h1:hover .anchor,.markdown-body h2:hover .anchor,.markdown-body h3:hover .anchor,.markdown-body h4:hover .anchor,.markdown-body h5:hover .anchor,.markdown-body h6:hover .anchor{text-decoration:none}.markdown-body h1:hover .anchor .octicon-link,.markdown-body h2:hover .anchor .octicon-link,.markdown-body h3:hover .anchor .octicon-link,.markdown-body h4:hover .anchor .octicon-link,.markdown-body h5:hover .anchor .octicon-link,.markdown-body h6:hover .anchor .octicon-link{visibility:visible}.markdown-body h1 code,.markdown-body h1 tt,.markdown-body h2 code,.markdown-body h2 tt,.markdown-body h3 code,.markdown-body h3 tt,.markdown-body h4 code,.markdown-body h4 tt,.markdown-body h5 code,.markdown-body h5 tt,.markdown-body h6 code,.markdown-body h6 tt{font-size:inherit}.markdown-body h1{font-size:2em}.markdown-body h1,.markdown-body h2{padding-bottom:.3em;border-bottom:1px solid #eee}.markdown-body h2{font-size:1.5em}.markdown-body h3{font-size:1.25em}.markdown-body h4{font-size:1em}.markdown-body h5{font-size:.875em}.markdown-body h6{font-size:.85em;color:#777}.markdown-body ol,.markdown-body ul{padding-left:2em}.markdown-body ol.no-list,.markdown-body ul.no-list{padding:0;list-style-type:none}.markdown-body ol ol,.markdown-body ol ul,.markdown-body ul ol,.markdown-body ul ul{margin-top:0;margin-bottom:0}.markdown-body li>p{margin-top:16px}.markdown-body li+li{padding-top:.25em}.markdown-body dl{padding:0}.markdown-body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:700}.markdown-body dl dd{padding:0 16px;margin-bottom:16px}.markdown-body table{display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all}.markdown-body table th{font-weight:700}.markdown-body table td,.markdown-body table th{padding:6px 13px;border:1px solid #ddd}.markdown-body table tr{background-color:#fff;border-top:1px solid #ccc}.markdown-body table tr:nth-child(2n){background-color:#f8f8f8}.markdown-body img{max-width:100%;box-sizing:content-box;background-color:#fff}.markdown-body img[align=right]{padding-left:20px}.markdown-body img[align=left]{padding-right:20px}.markdown-body .emoji{max-width:none;vertical-align:text-top;background-color:transparent}.markdown-body span.frame{display:block;overflow:hidden}.markdown-body span.frame>span{display:block;float:left;width:auto;padding:7px;margin:13px 0 0;overflow:hidden;border:1px solid #ddd}.markdown-body span.frame span img{display:block;float:left}.markdown-body span.frame span span{display:block;padding:5px 0 0;clear:both;color:#333}.markdown-body span.align-center{display:block;overflow:hidden;clear:both}.markdown-body span.align-center>span{display:block;margin:13px auto 0;overflow:hidden;text-align:center}.markdown-body span.align-center span img{margin:0 auto;text-align:center}.markdown-body span.align-right{display:block;overflow:hidden;clear:both}.markdown-body span.align-right>span{display:block;margin:13px 0 0;overflow:hidden;text-align:right}.markdown-body span.align-right span img{margin:0;text-align:right}.markdown-body span.float-left{display:block;float:left;margin-right:13px;overflow:hidden}.markdown-body span.float-left span{margin:13px 0 0}.markdown-body span.float-right{display:block;float:right;margin-left:13px;overflow:hidden}.markdown-body span.float-right>span{display:block;margin:13px auto 0;overflow:hidden;text-align:right}.markdown-body code,.markdown-body tt{padding:0;padding-top:.2em;padding-bottom:.2em;margin:0;font-size:85%;background-color:rgba(0,0,0,.04);border-radius:3px}.markdown-body code:after,.markdown-body code:before,.markdown-body tt:after,.markdown-body tt:before{letter-spacing:-.2em;content:"\00a0"}.markdown-body code br,.markdown-body tt br{display:none}.markdown-body del code{text-decoration:inherit}.markdown-body pre{word-wrap:normal}.markdown-body pre>code{padding:0;margin:0;font-size:100%;word-break:normal;white-space:pre;background:transparent;border:0}.markdown-body .highlight{margin-bottom:16px}.markdown-body .highlight pre{margin-bottom:0;word-break:normal}.markdown-body .highlight pre,.markdown-body pre{padding:16px;overflow:auto;font-size:85%;line-height:1.45;background-color:#f7f7f7;border-radius:3px}.markdown-body pre code,.markdown-body pre tt{display:inline;max-width:auto;padding:0;margin:0;overflow:visible;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}.markdown-body pre code:after,.markdown-body pre code:before,.markdown-body pre tt:after,.markdown-body pre tt:before{content:normal}.markdown-body .csv-data td,.markdown-body .csv-data th{padding:5px;overflow:hidden;font-size:12px;line-height:1;text-align:left;white-space:nowrap}.markdown-body .csv-data .blob-line-num{padding:10px 8px 9px;text-align:right;background:#fff;border:0}.markdown-body .csv-data tr{border-top:0}.markdown-body .csv-data th{font-weight:700;background:#f8f8f8;border-top:0}.news .alert .markdown-body blockquote{padding:0 0 0 40px;border:0 none}.activity-tab .news .alert .commits,.activity-tab .news .markdown-body blockquote{padding-left:0}.task-list-item{list-style-type:none}.task-list-item label{font-weight:400}.task-list-item.enabled label{cursor:pointer}.task-list-item+.task-list-item{margin-top:3px}.task-list-item-checkbox{float:left;margin:.31em 0 .2em -1.3em!important;vertical-align:middle;cursor:default!important}.markdown-body{padding-top:40px;padding-bottom:40px;max-width:758px;overflow:visible!important;position:relative}.markdown-body .emoji{vertical-align:top}.markdown-body pre{border:inherit!important}.markdown-body code{color:inherit!important}.markdown-body pre code .wrapper{display:-moz-inline-flex;display:-ms-inline-flex;display:-o-inline-flex;display:inline-flex}.markdown-body pre code .gutter{float:left;overflow:hidden;-webkit-user-select:none;user-select:none}.markdown-body pre code .gutter.linenumber{text-align:right;position:relative;display:inline-block;cursor:default;z-index:4;padding:0 8px 0 0;min-width:20px;box-sizing:content-box;color:#afafaf!important;border-right:3px solid #6ce26c!important}.markdown-body pre code .gutter.linenumber>span:before{content:attr(data-linenumber)}.markdown-body pre code .code{float:left;margin:0 0 0 16px}.markdown-body .gist .line-numbers{border-left:none;border-top:none;border-bottom:none}.markdown-body .gist .line-data{border:none}.markdown-body .gist table{border-spacing:0;border-collapse:inherit!important}.markdown-body code[data-gist-id]{background:none;padding:0}.markdown-body code[data-gist-id]:after,.markdown-body code[data-gist-id]:before{content:""}.markdown-body code[data-gist-id] .blob-num{border:unset}.markdown-body code[data-gist-id] table{overflow:unset;margin-bottom:unset}.markdown-body code[data-gist-id] table tr{background:unset}.markdown-body[dir=rtl] pre{direction:ltr}.markdown-body[dir=rtl] code{direction:ltr;unicode-bidi:embed}.markdown-body .alert>p:last-child{margin-bottom:0}.markdown-body pre.abc,.markdown-body pre.flow-chart,.markdown-body pre.graphviz,.markdown-body pre.mermaid,.markdown-body pre.sequence-diagram,.markdown-body pre.vega{text-align:center;background-color:inherit;border-radius:0;white-space:inherit;overflow:visible}.markdown-body pre.abc>code,.markdown-body pre.flow-chart>code,.markdown-body pre.graphviz>code,.markdown-body pre.mermaid>code,.markdown-body pre.sequence-diagram>code,.markdown-body pre.vega>code{text-align:left}.markdown-body pre.abc>svg,.markdown-body pre.flow-chart>svg,.markdown-body pre.graphviz>svg,.markdown-body pre.mermaid>svg,.markdown-body pre.sequence-diagram>svg,.markdown-body pre.vega>svg{max-width:100%;height:100%}.markdown-body pre>code.wrap{white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space:-o-pre-wrap;word-wrap:break-word}.markdown-body .alert>p:last-child,.markdown-body .alert>ul:last-child{margin-bottom:0}.markdown-body summary{display:list-item}.markdown-body summary:focus{outline:none}.markdown-body details summary{cursor:pointer}.markdown-body details:not([open])>:not(summary){display:none}.markdown-body figure{margin:1em 40px}.markdown-body .mark,.markdown-body mark{background-color:#fff1a7}.vimeo,.youtube{cursor:pointer;display:table;text-align:center;background-position:50%;background-repeat:no-repeat;background-size:contain;background-color:#000;overflow:hidden}.vimeo,.youtube{position:relative;width:100%}.youtube{padding-bottom:56.25%}.vimeo img{width:100%;object-fit:contain;z-index:0}.youtube img{object-fit:cover;z-index:0}.vimeo iframe,.youtube iframe,.youtube img{width:100%;height:100%;position:absolute;top:0;left:0}.vimeo iframe,.youtube iframe{vertical-align:middle;z-index:1}.vimeo .icon,.youtube .icon{position:absolute;height:auto;width:auto;top:50%;left:50%;transform:translate(-50%,-50%);color:#fff;opacity:.3;transition:opacity .2s;z-index:0}.vimeo:hover .icon,.youtube:hover .icon{opacity:.6;transition:opacity .2s}.slideshare .inner,.speakerdeck .inner{position:relative;width:100%}.slideshare .inner iframe,.speakerdeck .inner iframe{position:absolute;top:0;bottom:0;left:0;right:0;width:100%;height:100%}.figma{display:table;position:relative;width:100%;padding-bottom:56.25%}.figma iframe{position:absolute;top:0;bottom:0;left:0;right:0;width:100%;height:100%;border:1px solid #eee}.MJX_Assistive_MathML{display:none}#MathJax_Message{z-index:1000!important}.ui-infobar{position:relative;z-index:2;max-width:760px;margin:25px auto -25px;color:#777}.toc .invisable-node{list-style-type:none}.ui-toc{position:fixed;bottom:20px;z-index:998}.ui-toc.both-mode{margin-left:8px}.ui-toc.both-mode .ui-toc-label{height:40px;padding:10px 4px;border-top-left-radius:0;border-bottom-left-radius:0}.ui-toc-label{background-color:#e6e6e6;border:none;color:#868686;transition:opacity .2s}.ui-toc .open .ui-toc-label{opacity:1;color:#fff;transition:opacity .2s}.ui-toc-label:focus{opacity:.3;background-color:#ccc;color:#000}.ui-toc-label:hover{opacity:1;background-color:#ccc;transition:opacity .2s}.ui-toc-dropdown{margin-top:20px;margin-bottom:20px;padding-left:10px;padding-right:10px;max-width:45vw;width:25vw;max-height:70vh;overflow:auto;text-align:inherit}.ui-toc-dropdown>.toc{max-height:calc(70vh - 100px);overflow:auto}.ui-toc-dropdown[dir=rtl] .nav{padding-right:0;letter-spacing:.0029em}.ui-toc-dropdown a{overflow:hidden;text-overflow:ellipsis;white-space:pre}.ui-toc-dropdown .nav>li>a{display:block;padding:4px 20px;font-size:13px;font-weight:500;color:#767676}.ui-toc-dropdown .nav>li:first-child:last-child>ul,.ui-toc-dropdown .toc.expand ul{display:block}.ui-toc-dropdown .nav>li>a:focus,.ui-toc-dropdown .nav>li>a:hover{padding-left:19px;color:#000;text-decoration:none;background-color:transparent;border-left:1px solid #000}.ui-toc-dropdown[dir=rtl] .nav>li>a:focus,.ui-toc-dropdown[dir=rtl] .nav>li>a:hover{padding-right:19px;border-left:none;border-right:1px solid #000}.ui-toc-dropdown .nav>.active:focus>a,.ui-toc-dropdown .nav>.active:hover>a,.ui-toc-dropdown .nav>.active>a{padding-left:18px;font-weight:700;color:#000;background-color:transparent;border-left:2px solid #000}.ui-toc-dropdown[dir=rtl] .nav>.active:focus>a,.ui-toc-dropdown[dir=rtl] .nav>.active:hover>a,.ui-toc-dropdown[dir=rtl] .nav>.active>a{padding-right:18px;border-left:none;border-right:2px solid #000}.ui-toc-dropdown .nav .nav{display:none;padding-bottom:10px}.ui-toc-dropdown .nav>.active>ul{display:block}.ui-toc-dropdown .nav .nav>li>a{padding-top:1px;padding-bottom:1px;padding-left:30px;font-size:12px;font-weight:400}.ui-toc-dropdown[dir=rtl] .nav .nav>li>a{padding-right:30px}.ui-toc-dropdown .nav .nav>li>ul>li>a{padding-top:1px;padding-bottom:1px;padding-left:40px;font-size:12px;font-weight:400}.ui-toc-dropdown[dir=rtl] .nav .nav>li>ul>li>a{padding-right:40px}.ui-toc-dropdown .nav .nav>li>a:focus,.ui-toc-dropdown .nav .nav>li>a:hover{padding-left:29px}.ui-toc-dropdown[dir=rtl] .nav .nav>li>a:focus,.ui-toc-dropdown[dir=rtl] .nav .nav>li>a:hover{padding-right:29px}.ui-toc-dropdown .nav .nav>li>ul>li>a:focus,.ui-toc-dropdown .nav .nav>li>ul>li>a:hover{padding-left:39px}.ui-toc-dropdown[dir=rtl] .nav .nav>li>ul>li>a:focus,.ui-toc-dropdown[dir=rtl] .nav .nav>li>ul>li>a:hover{padding-right:39px}.ui-toc-dropdown .nav .nav>.active:focus>a,.ui-toc-dropdown .nav .nav>.active:hover>a,.ui-toc-dropdown .nav .nav>.active>a{padding-left:28px;font-weight:500}.ui-toc-dropdown[dir=rtl] .nav .nav>.active:focus>a,.ui-toc-dropdown[dir=rtl] .nav .nav>.active:hover>a,.ui-toc-dropdown[dir=rtl] .nav .nav>.active>a{padding-right:28px}.ui-toc-dropdown .nav .nav>.active>.nav>.active:focus>a,.ui-toc-dropdown .nav .nav>.active>.nav>.active:hover>a,.ui-toc-dropdown .nav .nav>.active>.nav>.active>a{padding-left:38px;font-weight:500}.ui-toc-dropdown[dir=rtl] .nav .nav>.active>.nav>.active:focus>a,.ui-toc-dropdown[dir=rtl] .nav .nav>.active>.nav>.active:hover>a,.ui-toc-dropdown[dir=rtl] .nav .nav>.active>.nav>.active>a{padding-right:38px}.markdown-body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica Neue,Helvetica,Roboto,Arial,sans-serif}html[lang^=ja] .markdown-body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica Neue,Helvetica,Roboto,Arial,Hiragino Kaku Gothic Pro,ヒラギノ角ゴ Pro W3,Osaka,Meiryo,メイリオ,MS Gothic,ＭＳ\ ゴシック,sans-serif}html[lang=zh-tw] .markdown-body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica Neue,Helvetica,Roboto,Arial,PingFang TC,Microsoft JhengHei,微軟正黑,sans-serif}html[lang=zh-cn] .markdown-body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica Neue,Helvetica,Roboto,Arial,PingFang SC,Microsoft YaHei,微软雅黑,sans-serif}html .markdown-body[lang^=ja]{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica Neue,Helvetica,Roboto,Arial,Hiragino Kaku Gothic Pro,ヒラギノ角ゴ Pro W3,Osaka,Meiryo,メイリオ,MS Gothic,ＭＳ\ ゴシック,sans-serif}html .markdown-body[lang=zh-tw]{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica Neue,Helvetica,Roboto,Arial,PingFang TC,Microsoft JhengHei,微軟正黑,sans-serif}html .markdown-body[lang=zh-cn]{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica Neue,Helvetica,Roboto,Arial,PingFang SC,Microsoft YaHei,微软雅黑,sans-serif}html[lang^=ja] .ui-toc-dropdown{font-family:Source Sans Pro,Helvetica,Arial,Meiryo UI,MS PGothic,ＭＳ\ Ｐゴシック,sans-serif}html[lang=zh-tw] .ui-toc-dropdown{font-family:Source Sans Pro,Helvetica,Arial,Microsoft JhengHei UI,微軟正黑UI,sans-serif}html[lang=zh-cn] .ui-toc-dropdown{font-family:Source Sans Pro,Helvetica,Arial,Microsoft YaHei UI,微软雅黑UI,sans-serif}html .ui-toc-dropdown[lang^=ja]{font-family:Source Sans Pro,Helvetica,Arial,Meiryo UI,MS PGothic,ＭＳ\ Ｐゴシック,sans-serif}html .ui-toc-dropdown[lang=zh-tw]{font-family:Source Sans Pro,Helvetica,Arial,Microsoft JhengHei UI,微軟正黑UI,sans-serif}html .ui-toc-dropdown[lang=zh-cn]{font-family:Source Sans Pro,Helvetica,Arial,Microsoft YaHei UI,微软雅黑UI,sans-serif}.ui-affix-toc{position:fixed;top:0;max-width:15vw;max-height:70vh;overflow:auto}.back-to-top,.expand-toggle,.go-to-bottom{display:block;padding:4px 10px;margin-top:10px;margin-left:10px;font-size:12px;font-weight:500;color:#999}.back-to-top:focus,.back-to-top:hover,.expand-toggle:focus,.expand-toggle:hover,.go-to-bottom:focus,.go-to-bottom:hover{color:#563d7c;text-decoration:none}.back-to-top,.go-to-bottom{margin-top:0}.ui-user-icon{width:20px;height:20px;display:block;border-radius:50%;margin-top:2px;margin-bottom:2px;margin-right:5px;background-position:50%;background-repeat:no-repeat;background-size:cover}.ui-user-icon.small{width:18px;height:18px;display:inline-block;vertical-align:middle;margin:0 0 .2em}.ui-infobar>small>span{line-height:22px}.ui-infobar>small .dropdown{display:inline-block}.ui-infobar>small .dropdown a:focus,.ui-infobar>small .dropdown a:hover{text-decoration:none}.ui-more-info{color:#888;cursor:pointer;vertical-align:middle}.ui-more-info .fa{font-size:16px}.ui-connectedGithub,.ui-published-note{color:#888}.ui-connectedGithub{line-height:23px;white-space:nowrap}.ui-connectedGithub a.file-path{color:#888;text-decoration:none;padding-left:22px}.ui-connectedGithub a.file-path:active,.ui-connectedGithub a.file-path:hover{color:#888;text-decoration:underline}.ui-connectedGithub .fa{font-size:20px}.ui-published-note .fa{font-size:20px;vertical-align:top}.unselectable{-webkit-user-select:none;-o-user-select:none;user-select:none}.selectable{-webkit-user-select:text;-o-user-select:text;user-select:text}@media print{blockquote,div,img,pre,table{page-break-inside:avoid!important}a[href]:after{font-size:12px!important}}.markdown-body.slides{position:relative;z-index:1;color:#222}.markdown-body.slides:before{content:"";display:block;position:absolute;top:0;left:0;right:0;bottom:0;z-index:-1;background-color:currentColor;box-shadow:0 0 0 50vw}.markdown-body.slides section[data-markdown]{position:relative;margin-bottom:1.5em;background-color:#fff;text-align:center}.markdown-body.slides section[data-markdown] code{text-align:left}.markdown-body.slides section[data-markdown]:before{content:"";display:block;padding-bottom:56.23%}.markdown-body.slides section[data-markdown]>div:first-child{position:absolute;top:50%;left:1em;right:1em;transform:translateY(-50%);max-height:100%;overflow:hidden}.markdown-body.slides section[data-markdown]>ul{display:inline-block}.markdown-body.slides>section>section+section:after{content:"";position:absolute;top:-1.5em;right:1em;height:1.5em;border:3px solid #777}.site-ui-font{font-family:Source Sans Pro,Helvetica,Arial,sans-serif}html[lang^=ja] .site-ui-font{font-family:Source Sans Pro,Helvetica,Arial,Hiragino Kaku Gothic Pro,ヒラギノ角ゴ Pro W3,Osaka,Meiryo,メイリオ,MS Gothic,ＭＳ\ ゴシック,sans-serif}html[lang=zh-tw] .site-ui-font{font-family:Source Sans Pro,Helvetica,Arial,PingFang TC,Microsoft JhengHei,微軟正黑,sans-serif}html[lang=zh-cn] .site-ui-font{font-family:Source Sans Pro,Helvetica,Arial,PingFang SC,Microsoft YaHei,微软雅黑,sans-serif}body{font-smoothing:subpixel-antialiased!important;-webkit-font-smoothing:subpixel-antialiased!important;-moz-osx-font-smoothing:auto!important;text-shadow:0 0 1em transparent,1px 1px 1.2px rgba(0,0,0,.004);-webkit-overflow-scrolling:touch;letter-spacing:.025em;font-family:Source Sans Pro,Helvetica,Arial,sans-serif}html[lang^=ja] body{font-family:Source Sans Pro,Helvetica,Arial,Hiragino Kaku Gothic Pro,ヒラギノ角ゴ Pro W3,Osaka,Meiryo,メイリオ,MS Gothic,ＭＳ\ ゴシック,sans-serif}html[lang=zh-tw] body{font-family:Source Sans Pro,Helvetica,Arial,PingFang TC,Microsoft JhengHei,微軟正黑,sans-serif}html[lang=zh-cn] body{font-family:Source Sans Pro,Helvetica,Arial,PingFang SC,Microsoft YaHei,微软雅黑,sans-serif}abbr[title]{border-bottom:none;text-decoration:underline;-webkit-text-decoration:underline dotted;text-decoration:underline dotted}abbr[data-original-title],abbr[title]{cursor:help}body.modal-open{overflow-y:auto;padding-right:0!important}
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js" integrity="sha256-3Jy/GbSLrg0o9y5Z5n1uw0qxZECH7C6OQpVBgNFYa0g=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js" integrity="sha256-g6iAfvZp+nDQ2TdTR/VVKJf3bGro4ub5fvWSWVRi2NE=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.9/es5-shim.min.js" integrity="sha256-8E4Is26QH0bD52WoQpcB+R/tcWQtpzlCojrybUd7Mxo=" crossorigin="anonymous"></script>
+
 {% endblock %}
 
 {% block body %}
-    <br>
-    <main id="main">
-        <section class="inner-page">
-            <div class="container">
-                    <div id="doc" class="markdown-body container-fluid comment-enabled" data-hard-breaks="true">
-                        <h1>Documentazione</h1>
-                        <h2 id="Introduzione" data-id="Introduzione"><a class="anchor hidden-xs" href="#Introduzione" title="Introduzione"><span class="octicon octicon-link"></span></a><span>Introduzione</span></h2><p><span>La ludopatia rappresenta la rovina economica di molti giovani, il campo medico prova a risolvere questo problema debellando il gioco d’azzardo dalla loro vita.</span><br>
-<span>Noi proponiamo una soluzione alternativa:</span><br>
+
+<main id="main" style="margin: 82px 60px;">
+    <div id="doc" class="markdown-body container-fluid comment-inner comment-enabled" data-hard-breaks="false"><h1 id="WiseGamble" data-id="WiseGamble"><a class="anchor hidden-xs" href="#WiseGamble" title="WiseGamble"><span class="octicon octicon-link"></span></a><span>WiseGamble</span></h1>
+</ol><h2 id="Introduzione" data-id="Introduzione"><a class="anchor hidden-xs" href="#Introduzione" title="Introduzione"><span class="octicon octicon-link"></span></a><span>Introduzione</span></h2><p><span>La ludopatia rappresenta la rovina economica di molti giovani, il campo medico prova a risolvere questo problema debellando il gioco d’azzardo dalla loro vita.</span>
+<span>Noi proponiamo una soluzione alternativa:</span>
 <strong><span>AIUTANDOLI A VINCERE</span></strong><span>.</span></p><p><span>Spesso le scommesse vengono basate su nessun criterio logico, affidandosi alla fortuna e ai sentimenti. </span><strong><span>WiseGamble</span></strong><span> propone di pronosticare le scommesse tramite un algoritmo intelligente.</span></p><p><span>Per la creazione del modello predittivo abbiamo scelto di seguire il modello </span><strong><span>CRISP-DM</span></strong><span> </span><em><span>(Cross Industry Standard Process for Data Mining)</span></em><span>.</span></p><div class="alert alert-warning">
 <p><span>Per accedere ai jupyter notebook colab riguardanti la pipeline ML </span><a href="https://drive.google.com/drive/folders/1ne-onATJ4yrGlEJ1tPKRHwnoYcxcsQfw?usp=sharing" target="_blank" rel="noopener"><span>clicca qui</span></a><span>.</span></p>
 <p><span>Per accedere alla repository github </span><a href="https://github.com/stepzar/wiseGamble.git" target="_blank" rel="noopener"><span>clicca qui</span></a><span>.</span></p>
-</div><p><span>Di seguito illustriamo le varie fasi percorse per la realizzazione del progetto.</span></p><h2 id="Business-Understanding" data-id="Business-Understanding"><a class="anchor hidden-xs" href="#Business-Understanding" title="Business-Understanding"><span class="octicon octicon-link"></span></a><span>Business Understanding</span></h2><p><span>Il sistema che si vuole realizzare ha come obiettivo quello di pronosticare i risultati di partite calcistiche dei top campionati.</span><br>
+</div><p><span>Di seguito illustriamo le varie fasi percorse per la realizzazione del progetto.</span></p><h2 id="Business-Understanding" data-id="Business-Understanding"><a class="anchor hidden-xs" href="#Business-Understanding" title="Business-Understanding"><span class="octicon octicon-link"></span></a><span>Business Understanding</span></h2><p><span>Il sistema che si vuole realizzare ha come obiettivo quello di pronosticare i risultati di partite calcistiche dei top campionati.</span>
 <span>I campionati per i quali si dovranno fornire i pronostici sono:</span></p><ul>
 <li><span>UEFA Champions League</span></li>
 <li><span>UEFA Europa League</span></li>
@@ -40,7 +50,7 @@
 <li><span>Totali cartellini gialli (Over 5.5/ Under 5.5)</span></li>
 <li><span>Totali Corner 1X2</span></li>
 <li><span>Totali Corner (Over 7.5/ Under 7.5)</span></li>
-</ul><p><span>L’utente ha la possibilità di visualizzare in maniera semplice e veloce l’insieme di pronostici di una partita.</span><br>
+</ul><p><span>L’utente ha la possibilità di visualizzare in maniera semplice e veloce l’insieme di pronostici di una partita.</span>
 <span>Tramite il sistema, l’utente potrà visualizzare le predizioni delle categorie sopracitate per le partite da disputarsi nelle prossime 24 ore.</span></p><h5 id="Business-Success-Criteria" data-id="Business-Success-Criteria"><a class="anchor hidden-xs" href="#Business-Success-Criteria" title="Business-Success-Criteria"><span class="octicon octicon-link"></span></a><span>Business Success Criteria</span></h5><p><span>Considerando la difficoltà nel fornire pronostici in questo campo, non è possibile garantire la realizzazione di modelli che soddisfino determinati canoni di affidabilità. Quindi l’obiettivo del progetto è quello di costruire una pipeline corretta che ci permetta di avvicinarci quanto più possibile ad un accuracy di almeno il 60%.</span></p><h2 id="Data-Understanding" data-id="Data-Understanding"><a class="anchor hidden-xs" href="#Data-Understanding" title="Data-Understanding"><span class="octicon octicon-link"></span></a><span>Data Understanding</span></h2><p><span>Questa fase prevede la collezione dei dati e l’analisi degli stessi, evidenziando problemi di consistenza e qualità.</span></p><h3 id="Data-Collection" data-id="Data-Collection"><a class="anchor hidden-xs" href="#Data-Collection" title="Data-Collection"><span class="octicon octicon-link"></span></a><span>Data Collection</span></h3><p><span>I dati sono stati reperiti tramite web scraping del sito </span><a href="https://www.sofascore.com/" target="_blank" rel="noopener"><span>https://www.sofascore.com/</span></a><span> con l’utilizzo di python; è stato deciso di estrarre i dati relativi a tutte le partite dei campionati sopra citati a partire dal 2015.</span></p><pre><code>if __name__ == '__main__':
     startDate = datetime(2015,1,1)
     endDate = datetime(2021,12,2)
@@ -60,10 +70,9 @@
         df = pd.DataFrame(good_matches)
         df.to_csv(f"data/{date}.csv")
         good_matches = []
-</code></pre><p><span>I dati ottenuti erano inizialmente separati in molteplici file csv, uno per ogni giorno esaminato, sono stati successivamente uniti in un unico file.</span></p><h3 id="Data-Analysis" data-id="Data-Analysis"><a class="anchor hidden-xs" href="#Data-Analysis" title="Data-Analysis"><span class="octicon octicon-link"></span></a><span>Data Analysis</span></h3><p><span>I dati grezzi ottenuti formavano un dataset [70785 rows × 2038] columns.</span><br>
+</code></pre><p><span>I dati ottenuti erano inizialmente separati in molteplici file csv, uno per ogni giorno esaminato, sono stati successivamente uniti in un unico file.</span></p><h3 id="Data-Analysis" data-id="Data-Analysis"><a class="anchor hidden-xs" href="#Data-Analysis" title="Data-Analysis"><span class="octicon octicon-link"></span></a><span>Data Analysis</span></h3><p><span>I dati grezzi ottenuti formavano un dataset [70785 rows × 2038] columns.</span>
 <span>I dati ottenuti erano formati da</span></p><ul>
-<li>
-<p><span>informazioni di riconoscimento della partita:</span></p>
+<li><span>informazioni di riconoscimento della partita:</span>
 <ul>
 <li><span>squadra in casa e fuori casa</span></li>
 <li><span>campionato</span></li>
@@ -72,8 +81,7 @@
 <li><span>etc…</span></li>
 </ul>
 </li>
-<li>
-<p><span>statistiche della partita a fine primo tempo e fine partita</span></p>
+<li><span>statistiche della partita a fine primo tempo e fine partita</span>
 <ul>
 <li><span>tutti i tiri in porta</span></li>
 <li><span>tutti i falli</span></li>
@@ -82,35 +90,32 @@
 <li><span>etc…</span></li>
 </ul>
 </li>
-<li>
-<p><span>pronostici del risultato</span></p>
+<li><span>pronostici del risultato</span>
 <ul>
 <li><span>risultato secondo gli utenti del sito</span></li>
 <li><span>quotazioni</span></li>
 <li><span>etc…</span></li>
 </ul>
 </li>
-<li>
-<p><span>statistiche per ogni giocatore</span></p>
+<li><span>statistiche per ogni giocatore</span>
 <ul>
 <li><span>tiri del giocatore</span></li>
 <li><span>accuratezza del tiro</span></li>
 <li><span>etc…</span></li>
 </ul>
 </li>
-<li>
-<p><span>id interni usati da sofascore</span></p>
+<li><span>id interni usati da sofascore</span>
 <ul>
 <li><span>id associati ad ogni giocatore</span></li>
 <li><span>id associato alla partita</span></li>
 <li><span>etc…</span></li>
 </ul>
 </li>
-</ul><h4 id="Problemi" data-id="Problemi"><a class="anchor hidden-xs" href="#Problemi" title="Problemi"><span class="octicon octicon-link"></span></a><span>Problemi</span></h4><p><span>Il numero di colonne risultava eccessivo; la maggior parte di esse oltre a non contenere informazioni rilevanti era principalmente formata da valori nulli.</span></p><p><img src="https://i.imgur.com/dyDCNw8.png" alt="" loading="lazy"></p><p><span>Successivamente ci siamo resi conto che per il modo in cui sofascore serviva le richieste tutte le righe erano duplicate.</span><br><br><br>
-<span>Per quanto riguarda problemi di consistenza, le statistiche, che contenevano i dati da noi ritenuti più interessanti per effettuare le predizioni, erano chiaramente solo disponibili a fine partita e quindi non utilizzabili per addestrare il classificatore senza causare problemi di data leakage.</span><br>
-<span>Tutte queste problematiche sono state risolte nella sezione di </span><a href="##Data-Preparation"><span>Data Preparation</span></a><span>.</span></p><h2 id="Data-Preparation" data-id="Data-Preparation"><a class="anchor hidden-xs" href="#Data-Preparation" title="Data-Preparation"><span class="octicon octicon-link"></span></a><span>Data Preparation</span></h2><p><span>In questa sezione si discute di come sono stati preparati i dati per poi essere elaborati dai modelli, inoltre sono presente le soluzioni ai problemi evidenziati nella sezione precedente.</span></p><h3 id="Data-Cleaning" data-id="Data-Cleaning"><a class="anchor hidden-xs" href="#Data-Cleaning" title="Data-Cleaning"><span class="octicon octicon-link"></span></a><span>Data Cleaning</span></h3><p><span>In questa fase provvediamo alla </span><em><span>pulizia</span></em><span> dei dati.</span><br>
-<span>Il primo passo è stato quello di eliminare le righe duplicate; successivamente, visto il numero elevato di colonne del dataset, abbiamo deciso di tenere in considerazione solo le colonne con al massimo il 20% di valori null, riducendo il dataset ad un totale di 33459 rows x 45 columns.</span><br><br><br>
-<span>Si ritiene utile rappresentare graficamente la somma dei valori </span><em><span>null</span></em><span> presenti per ogni colonna all’interno del dataset, in modo da poter ragionare sulle possibili soluzioni da intraprendere.</span></p><p><img src="https://i.imgur.com/vetYeDv.png" alt="" loading="lazy"></p><p><span>Dal grafico si evince che le colonne </span><em><span>all_offside_home</span></em><span> e </span><em><span>all_offside_away</span></em><span> hanno il maggior numero di righe con valori null. Analizzando il significato di queste colonne non abbiamo evidenziato nessuna correlazione con le predizioni che si dovranno fornire, di conseguenza abbiamo scelto di eliminare queste due colonne.</span><br>
+</ul><h4 id="Problemi" data-id="Problemi"><a class="anchor hidden-xs" href="#Problemi" title="Problemi"><span class="octicon octicon-link"></span></a><span>Problemi</span></h4><p><span>Il numero di colonne risultava eccessivo; la maggior parte di esse oltre a non contenere informazioni rilevanti era principalmente formata da valori nulli.</span></p><p><img src="https://i.imgur.com/dyDCNw8.png" alt="" loading="lazy"></p><p><span>Successivamente ci siamo resi conto che per il modo in cui sofascore serviva le richieste tutte le righe erano duplicate.</span><br><br>
+<span>Per quanto riguarda problemi di consistenza, le statistiche, che contenevano i dati da noi ritenuti più interessanti per effettuare le predizioni, erano chiaramente solo disponibili a fine partita e quindi non utilizzabili per addestrare il classificatore senza causare problemi di data leakage.</span>
+<span>Tutte queste problematiche sono state risolte nella sezione di </span><a href="##Data-Preparation"><span>Data Preparation</span></a><span>.</span></p><h2 id="Data-Preparation" data-id="Data-Preparation"><a class="anchor hidden-xs" href="#Data-Preparation" title="Data-Preparation"><span class="octicon octicon-link"></span></a><span>Data Preparation</span></h2><p><span>In questa sezione si discute di come sono stati preparati i dati per poi essere elaborati dai modelli, inoltre sono presente le soluzioni ai problemi evidenziati nella sezione precedente.</span></p><h3 id="Data-Cleaning" data-id="Data-Cleaning"><a class="anchor hidden-xs" href="#Data-Cleaning" title="Data-Cleaning"><span class="octicon octicon-link"></span></a><span>Data Cleaning</span></h3><p><span>In questa fase provvediamo alla </span><em><span>pulizia</span></em><span> dei dati.</span>
+<span>Il primo passo è stato quello di eliminare le righe duplicate; successivamente, visto il numero elevato di colonne del dataset, abbiamo deciso di tenere in considerazione solo le colonne con al massimo il 20% di valori null, riducendo il dataset ad un totale di 33459 rows x 45 columns.</span><br><br>
+<span>Si ritiene utile rappresentare graficamente la somma dei valori </span><em><span>null</span></em><span> presenti per ogni colonna all’interno del dataset, in modo da poter ragionare sulle possibili soluzioni da intraprendere.</span></p><p><img src="https://i.imgur.com/vetYeDv.png" alt="" loading="lazy"></p><p><span>Dal grafico si evince che le colonne </span><em><span>all_offside_home</span></em><span> e </span><em><span>all_offside_away</span></em><span> hanno il maggior numero di righe con valori null. Analizzando il significato di queste colonne non abbiamo evidenziato nessuna correlazione con le predizioni che si dovranno fornire, di conseguenza abbiamo scelto di eliminare queste due colonne.</span>
 <span>Mentre per le restanti colonne abbiamo deciso di eliminare unicamente le righe con valori null.</span></p><pre><code># eliminamo le colonne all_offsides_home all_offsides_away
 df.drop(columns=["all_offsides_home", "all_offsides_away"], inplace=True)
 
@@ -278,6 +283,14 @@ df.shape[0] -&gt; 25349 rows
 <td style="text-align:center"><span>float64</span></td>
 </tr>
 <tr>
+<td style="text-align:center"><span>home_formation</span></td>
+<td style="text-align:center"><span>object</span></td>
+</tr>
+<tr>
+<td style="text-align:center"><span>away_formation</span></td>
+<td style="text-align:center"><span>object</span></td>
+</tr>
+<tr>
 <td style="text-align:center"><span>penalty</span></td>
 <td style="text-align:center"><span>float64</span></td>
 </tr>
@@ -291,8 +304,7 @@ from sklearn import preprocessing
 
 le = preprocessing.LabelEncoder()
 #in input label da trasformare
-le.fit(["tournament_name", "country", "city", "stadium",
-"referee", "home_formation", "away_formation"])
+le.fit(["tournament_name", "country", "city", "stadium", "referee", "home_formation", "away_formation"])
 #si attua la codifica sulle colonne del dataset
 df["tournament_name"] = le.fit_transform(df.tournament_name)
 df["country"] = le.fit_transform(df.country)
@@ -328,7 +340,7 @@ df.drop(columns=labels, inplace=True)
 <li><span>all_yellow_cards_away</span></li>
 <li><span>all_goalkeeper_saves_home</span></li>
 <li><span>all_goalkeeper_saves_away</span></li>
-</ul><p><span>La media per ogni statistica è calcolata sulla base delle ultime 5 partite giocate dalle squadre, in questo modo si assegna ad ogni squadra una condizione di forma in base alla quale verranno fatte le predizioni.</span><br>
+</ul><p><span>La media per ogni statistica è calcolata sulla base delle ultime 5 partite giocate dalle squadre, in questo modo si assegna ad ogni squadra una condizione di forma in base alla quale verranno fatte le predizioni.</span>
 <span>Di seguito riportiamo il frammento di codice utilizzato per il calcolo della media per le statistiche della squadra di casa (lo stesso è stato fatto per la squadra ospite).</span></p><pre><code># 5 partite precedenti della squadra di casa
 row_finale["all_ball_possession_home"] = precs_home["all_ball_possession"].mean()
 row_finale["all_shots_on_target_home"] = precs_home["all_shots_on_target"].mean()
@@ -384,10 +396,26 @@ def over_under_corner(row):
 # esempio di come calcoliamo la variabile target per la predizione Under/Over corner
 df['target'] = df.apply(over_under_corner, axis=1)
 df
-</code></pre><p><span>Inoltre le seguenti colonne: </span><em><span>homeScore_period1</span></em><span>, </span><em><span>homeScore</span></em><span>, </span><em><span>awayScore_period1</span></em><span>, </span><em><span>awayScore</span></em><span>, </span><em><span>hasGlobalHighlights</span></em><span>, </span><em><span>penalty</span></em><span>, </span><em><span>varDecision</span></em><span>, </span><em><span>home_formation</span></em><span> e </span><em><span>away_formation</span></em><span>, non saranno disponibili al momento della predizione. Di conseguenza si provvede alla loro eliminazione.</span></p><pre><code>labels = ['homeScore_period1', 'homeScore', 'awayScore_period1', 'awayScore',
-'hasGlobalHighlights', 'penalty', 'varDecision', 'home_formation', 'away_formation']
+</code></pre><p><span>Inoltre le seguenti colonne: </span><em><span>homeScore_period1</span></em><span>, </span><em><span>homeScore</span></em><span>, </span><em><span>awayScore_period1</span></em><span>, </span><em><span>awayScore</span></em><span>, </span><em><span>hasGlobalHighlights</span></em><span>, </span><em><span>penalty</span></em><span>, </span><em><span>varDecision</span></em><span>, </span><em><span>home_formation</span></em><span> e </span><em><span>away_formation</span></em><span>, non saranno disponibili al momento della predizione. Di conseguenza si provvede alla loro eliminazione.</span></p><pre><code>labels = ['homeScore_period1', 'homeScore', 'awayScore_period1', 'awayScore', 'hasGlobalHighlights', 'penalty', 'varDecision', 'home_formation', 'away_formation']
 df.drop(columns=labels, inplace=True)
-</code></pre><h3 id="Data-Scaling" data-id="Data-Scaling"><a class="anchor hidden-xs" href="#Data-Scaling" title="Data-Scaling"><span class="octicon octicon-link"></span></a><span>Data Scaling</span></h3><p><span>In questa fase provvediamo allo </span><em><span>scaling</span></em><span> delle features, per fare ciò plottiamo prima di tutto le loro distribuzioni.</span></p><img src="https://i.imgur.com/fxqSlCf.png" height="300"><img src="https://i.imgur.com/ntM7YUI.png" height="300"><img src="https://i.imgur.com/DrsZH3C.png" height="300"><img src="https://i.imgur.com/T3BUhoG.png" height="300"><img src="https://i.imgur.com/CNCo250.png" height="300"><img src="https://i.imgur.com/oTM2FIV.png" height="300"><img src="https://i.imgur.com/HsURE0n.png" height="300"><img src="https://i.imgur.com/I121WG5.png" height="300"><img src="https://i.imgur.com/cQSC9XR.png" height="300"><img src="https://i.imgur.com/dioFBdF.png" height="300"><img src="https://i.imgur.com/RuFOSsY.png" height="300"><img src="https://i.imgur.com/MjIcpAH.png" height="300"><img src="https://i.imgur.com/ntoF0VJ.png" height="300"><img src="https://i.imgur.com/E44hdmK.png" height="300"><img src="https://i.imgur.com/WCug4Tk.png" height="300"><img src="https://i.imgur.com/Zvm6pRb.png" height="300"><img src="https://i.imgur.com/3kV38Vl.png" height="300"><p><span>I grafici sopra riportati, evidenziano che:</span></p><ul>
+</code></pre><h3 id="Data-Scaling" data-id="Data-Scaling"><a class="anchor hidden-xs" href="#Data-Scaling" title="Data-Scaling"><span class="octicon octicon-link"></span></a><span>Data Scaling</span></h3><p><span>In questa fase provvediamo allo </span><em><span>scaling</span></em><span> delle features, per fare ciò plottiamo prima di tutto le loro distribuzioni.</span><br><br>
+<img src="https://i.imgur.com/fxqSlCf.png" alt="" loading="lazy">
+<img src="https://i.imgur.com/ntM7YUI.png" alt="" loading="lazy">
+<img src="https://i.imgur.com/DrsZH3C.png" alt="" loading="lazy">
+<img src="https://i.imgur.com/T3BUhoG.png" alt="" loading="lazy">
+<img src="https://i.imgur.com/CNCo250.png" alt="" loading="lazy">
+<img src="https://i.imgur.com/oTM2FIV.png" alt="" loading="lazy">
+<img src="https://i.imgur.com/HsURE0n.png" alt="" loading="lazy">
+<img src="https://i.imgur.com/I121WG5.png" alt="" loading="lazy">
+<img src="https://i.imgur.com/cQSC9XR.png" alt="" loading="lazy">
+<img src="https://i.imgur.com/dioFBdF.png" alt="" loading="lazy">
+<img src="https://i.imgur.com/RuFOSsY.png" alt="" loading="lazy">
+<img src="https://i.imgur.com/MjIcpAH.png" alt="" loading="lazy">
+<img src="https://i.imgur.com/ntoF0VJ.png" alt="" loading="lazy">
+<img src="https://i.imgur.com/E44hdmK.png" alt="" loading="lazy">
+<img src="https://i.imgur.com/WCug4Tk.png" alt="" loading="lazy">
+<img src="https://i.imgur.com/Zvm6pRb.png" alt="" loading="lazy">
+<img src="https://i.imgur.com/3kV38Vl.png" alt="" loading="lazy"></p><p><span>I grafici sopra riportati, evidenziano che:</span></p><ul>
 <li><span>all_ball_possession_away: ha una distribuzione gaussiana</span></li>
 <li><span>all_shots_on_target_home: ha una distribuzione gaussiana</span></li>
 <li><span>all_shots_on_target_away: ha una distribuzione gaussiana</span></li>
@@ -465,10 +493,11 @@ fs.fit_transform(X_scaled, y)
 X_train, X_test, y_train, y_test =
 train_test_split(X_selection, y, test_size=0.3)
 </code></pre><p><span>In questo modo abbiamo diviso i dati in un rapporto 70:30, ovvero il 70% dei dati verrà utilizzato per addestrare il modello mentre il 30% verrà utilizzato per testare il modello.</span></p><h4 id="Oversampling-e-Undersampling" data-id="Oversampling-e-Undersampling"><a class="anchor hidden-xs" href="#Oversampling-e-Undersampling" title="Oversampling-e-Undersampling"><span class="octicon octicon-link"></span></a><span>Oversampling e Undersampling</span></h4><p><span>Per effettuare il balancing del training set, abbiamo rappresentato graficamente il numero di occorenze di ogni classe.</span></p><h6 id="Riportiamo-due-esempi-di-grafici-prima-del-balancing" data-id="Riportiamo-due-esempi-di-grafici-prima-del-balancing"><a class="anchor hidden-xs" href="#Riportiamo-due-esempi-di-grafici-prima-del-balancing" title="Riportiamo-due-esempi-di-grafici-prima-del-balancing"><span class="octicon octicon-link"></span></a><span>Riportiamo due esempi di grafici prima del balancing.</span></h6><blockquote>
-<p><strong><span>Grafico 1</span></strong></p>
-<p><img src="https://i.imgur.com/LYMWRWO.png" alt="" loading="lazy"></p>
+<p><strong><span>Grafico 1</span></strong><br><br>
+<img src="https://i.imgur.com/LYMWRWO.png" alt="" loading="lazy"></p>
 </blockquote><blockquote>
-<p><strong><span>Grafico 2</span></strong></p>
+<p><strong><span>Grafico 2</span></strong><br><br></p>
+</blockquote><blockquote>
 <p><img src="https://i.imgur.com/Xe5wAgf.png" alt="" loading="lazy"></p>
 </blockquote><p><span>Per la maggior parte dei traning set si è verificata la situazione del </span><em><span>Grafico 1</span></em><span>, in questo caso abbiamo proceduto al bilanciamento del traning set tramite la tecnica di </span><strong><span>oversampling</span></strong><span>. Più precisimante tramite il metodo </span><strong><span>SMOTE</span></strong><span>, creando in questo modo istanze “artificiali” della classe di minoranza, mitigando la probelmatica della duplicazione di istanze che potrebbero portare ad </span><em><span>overfitting</span></em><span>.</span></p><pre><code>from imblearn.over_sampling import SMOTE
 
@@ -478,26 +507,21 @@ X_train_res, y_train_res = sm.fit_resample(X_train, y_train)
 
 cc = ClusterCentroids(random_state=42)
 X_train_res, y_train_res = cc.fit_resample(X_train, y_train)
-</code></pre><p><span>Riportiamo di seguito i grafici ottenuti dopo l’oversampling per il grafico 1 e l’undersampling per il grafico 2.</span></p><blockquote>
-<p><strong><span>Grafico 1</span></strong></p>
-<p><img src="https://i.imgur.com/EhnTK51.png" alt="" loading="lazy"></p>
+</code></pre><p><span>Riportiamo di seguito i grafici ottenuti dopo l’oversampling per il grafico 1 e l’undersampling per il grafico 2.</span><br><br></p><blockquote>
+<p><strong><span>Grafico 1</span></strong><br><br>
+<img src="https://i.imgur.com/EhnTK51.png" alt="" loading="lazy"></p>
 </blockquote><blockquote>
-<p><strong><span>Grafico 2</span></strong></p>
-<p><img src="https://i.imgur.com/Y0eDhNd.png" alt="" loading="lazy"></p>
+<p><strong><span>Grafico 2</span></strong><br><br>
+<img src="https://i.imgur.com/Y0eDhNd.png" alt="" loading="lazy"></p>
 </blockquote><h2 id="Modeling" data-id="Modeling"><a class="anchor hidden-xs" href="#Modeling" title="Modeling"><span class="octicon octicon-link"></span></a><span>Modeling</span></h2><p><span>In questa fase definiamo e implementiamo i nostri agenti.</span></p><p><span>Tutte le predizioni da noi definite hanno un numero discreto di valori quindi è stato deciso di usare un inseme di classificatori, uno per ogni valore da predirre.</span></p><h3 id="Classificatori" data-id="Classificatori"><a class="anchor hidden-xs" href="#Classificatori" title="Classificatori"><span class="octicon octicon-link"></span></a><span>Classificatori</span></h3><p><span>Per ogni variabile dipendente abbiamo creato un classificatore usando diversi algoritmi:</span></p><ul>
-<li>
-<p><span>Naive Bayes</span></p>
+<li><span>Naive Bayes</span>
 <ul>
 <li><span>Bernoulli</span></li>
 <li><span>Gaussian</span></li>
 </ul>
 </li>
-<li>
-<p><span>Decision Tree</span></p>
-</li>
-<li>
-<p><span>Random Forest</span></p>
-</li>
+<li><span>Decision Tree</span></li>
+<li><span>Random Forest</span></li>
 </ul><p><span>Successivamente, in fase di evaluation, sono stati selezionati i modelli con le prestazioni migliori.</span></p><h2 id="Evaluation" data-id="Evaluation"><a class="anchor hidden-xs" href="#Evaluation" title="Evaluation"><span class="octicon octicon-link"></span></a><span>Evaluation</span></h2><p><span>Per ogni variabili dipendente abbiamo valutato le prestazioni dei vari algoritmi di classificazione sopracitati. Per sintesi, mostriamo in maniera dettagliata solo i risultati per la predizione “Totali cartellini gialli (Over 5.5/ Under 5.5)”, mentre per le restanti predizioni mostriamo solo l’accuracy.</span></p><h3 id="Totali-cartellini-gialli-Over-55-Under-55" data-id="Totali-cartellini-gialli-Over-55-Under-55"><a class="anchor hidden-xs" href="#Totali-cartellini-gialli-Over-55-Under-55" title="Totali-cartellini-gialli-Over-55-Under-55"><span class="octicon octicon-link"></span></a><span>Totali cartellini gialli (Over 5.5/ Under 5.5)</span></h3><h4 id="Decision-Tree" data-id="Decision-Tree"><a class="anchor hidden-xs" href="#Decision-Tree" title="Decision-Tree"><span class="octicon octicon-link"></span></a><span>Decision Tree</span></h4><table>
 <thead>
 <tr>
@@ -627,9 +651,9 @@ X_train_res, y_train_res = cc.fit_resample(X_train, y_train)
 <td style="text-align:center"><span>Naive Bayes Bernoulli</span></td>
 </tr>
 </tbody>
-</table><h2 id="Deployment" data-id="Deployment"><a class="anchor hidden-xs" href="#Deployment" title="Deployment"><span class="octicon octicon-link"></span></a><span>Deployment</span></h2><p><span>Per rendere disponibile il modello agli utenti abbiamo creato una web-app, in cui è possibile visualizzare le partite da disputarsi nelle prossime 24 ore ed ottenere le predizioni.</span><br>
-<span>Considerando le accuracy ottenute per ogni modello, abbiamo scelto di rendere disponibile solo i due modelli con accuracy più alta, ovvero: </span><strong><span>Totali cartellini gialli (Over 5.5/ Under 5.5)</span></strong><span> e </span><strong><span>Totali Corner (Over 7.5/ Under 7.5)</span></strong><span>.</span></p><p><span>I dati necessari per effettuare le predizioni sono sempre reperiti al momento tramite scraping del sito </span><a href="https://www.sofascore.com/" target="_blank" rel="noopener"><span>https://www.sofascore.com/</span></a><span>.</span></p><p><span>Gli utenti potranno accedere alla web-app </span><strong><span>WiseGamble</span></strong><span>, dove visualizzeranno la lista di partite che si disputeranno nell’arco della giornata, con la possibilità di filtrare anche per campionato, e dalla quale sceglieranno la partita per la quale ricevere i pronostici.</span><br>
-<span>Una volta selezionata la partita saranno reindirizzati in un’altra pagina, con tutti i dettagli della partita selezionata, dove potranno visualizzare i pronostici con i rispettivi valori in percentuale di fiducia nella predizione.</span></p><p><span>Nella web-app </span><em><span>WiseGamble</span></em><span> saranno attivi due agenti, ovvero i predittori dei risultati da pronosticare, che di seguito vengono dettagliati.</span></p><h3 id="Ambiente" data-id="Ambiente"><a class="anchor hidden-xs" href="#Ambiente" title="Ambiente"><span class="octicon octicon-link"></span></a><span>Ambiente</span></h3><p><span>I due agenti sono fra di loro simili, ogni agente agisce in modo indipendente rispetto all’altro, si trovano quindi in ambienti indipendenti che hanno le stesse caratteristiche.</span><br>
+</table><h2 id="Deployment" data-id="Deployment"><a class="anchor hidden-xs" href="#Deployment" title="Deployment"><span class="octicon octicon-link"></span></a><span>Deployment</span></h2><p><span>Per rendere disponibile il modello agli utenti abbiamo creato una web-app, in cui è possibile visualizzare le partite da disputarsi nelle prossime 24 ore ed ottenere le predizioni.</span>
+<span>Considerando le accuracy ottenute per ogni modello, abbiamo scelto di rendere disponibile solo i due modelli con accuracy più alta, ovvero: </span><strong><span>Totali cartellini gialli (Over 5.5/ Under 5.5)</span></strong><span> e </span><strong><span>Totali Corner (Over 7.5/ Under 7.5)</span></strong><span>.</span></p><p><span>I dati necessari per effettuare le predizioni sono sempre reperiti al momento tramite scraping del sito </span><a href="https://www.sofascore.com/" target="_blank" rel="noopener"><span>https://www.sofascore.com/</span></a><span>.</span></p><p><span>Gli utenti potranno accedere alla web-app </span><strong><span>WiseGamble</span></strong><span>, dove visualizzeranno la lista di partite che si disputeranno nell’arco della giornata, con la possibilità di filtrare anche per campionato, e dalla quale sceglieranno la partita per la quale ricevere i pronostici.</span>
+<span>Una volta selezionata la partita saranno reindirizzati in un’altra pagina, con tutti i dettagli della partita selezionata, dove potranno visualizzare i pronostici con i rispettivi valori in </span><span class="ui-comment-inline-span">percentuale</span><span> di fiducia nella predizione.</span></p><p><span>Nella web-app </span><em><span>WiseGamble</span></em><span> saranno attivi due agenti, ovvero i predittori dei risultati da pronosticare, che di seguito vengono dettagliati.</span></p><h3 id="Ambiente" data-id="Ambiente"><a class="anchor hidden-xs" href="#Ambiente" title="Ambiente"><span class="octicon octicon-link"></span></a><span>Ambiente</span></h3><p><span>I due agenti sono fra di loro simili, ogni agente agisce in modo indipendente rispetto all’altro, si trovano quindi in ambienti indipendenti che hanno le stesse caratteristiche.</span>
 <span>Considerando quanto detto, gli ambienti possono essere descritti con la seguente specifica </span><em><span>PEAS</span></em><span>.</span></p><h4 id="Specifica-PEAS" data-id="Specifica-PEAS"><a class="anchor hidden-xs" href="#Specifica-PEAS" title="Specifica-PEAS"><span class="octicon octicon-link"></span></a><span>Specifica PEAS</span></h4><table>
 <thead>
 <tr>
@@ -658,8 +682,8 @@ X_train_res, y_train_res = cc.fit_resample(X_train, y_train)
 
 dump(clf_randomForest, 'drive/My Drive/wiseGamble/model/cornerovun75.joblib')
 dump(scaler, 'drive/My Drive/wiseGamble/model/scaler_cornerovun75.joblib')
-</code></pre><p><span>Per il corretto funzionamento dei modelli abbiamo dovuto esportare anche gli scalers utilizzati nelle pipeline, in modo da permetterci di normalizzare i dati presi da </span><em><span>sofascore</span></em><span> per poi darli in input ai modelli che potranno così fornirci una predizione corretta.</span><br>
-<br><br><br>
+</code></pre><p><span>Per il corretto funzionamento dei modelli abbiamo dovuto esportare anche gli scalers utilizzati nelle pipeline, in modo da permetterci di normalizzare i dati presi da </span><em><span>sofascore</span></em><span> per poi darli in input ai modelli che potranno così fornirci una predizione corretta.</span>
+<br><br>
 <span>Inoltre abbiamo dovuto anche esportare il </span><em><span>Label Encoder</span></em><span>, in quanto alcuni dati presi da sofascore erano stringhe che sono state trasformate, nella fase di pulzia dei dati, in identificativi.</span></p><h2 id="Conclusioni" data-id="Conclusioni"><a class="anchor hidden-xs" href="#Conclusioni" title="Conclusioni"><span class="octicon octicon-link"></span></a><span>Conclusioni</span></h2><p><span>I risultati ottenuti evidenziano che le previsioni di alcuni modelli, come ad esempio il modello predittivo relativo al risultato </span><em><span>1X2</span></em><span>, non sono molto attendibili. Ciò può dipendere dalla qualità dei dati fornita al modello o anche dal fatto che il risultato nella realtà è difficilmente prevedibile.</span></p><p><span>Infine possiamo evidenziare che i due modelli predittivi, riguardanti i cartellini gialli e i corner, si sono distinti in quanto hanno raggiunto un accuracy superiore al 60% imposta come obiettivo nei </span><a href="#######Business-Success-Criteria"><span>business success criteria</span></a><span> definiti all’inizio del progetto.</span></p><hr><p><span>Concludiamo augurandovi</span></p><p><span>BUONA SCOMMESSA…</span></p></div>
     <div class="ui-toc dropup unselectable hidden-print" style="display:none;">
         <div class="pull-right dropdown">
@@ -668,8 +692,9 @@ dump(scaler, 'drive/My Drive/wiseGamble/model/scaler_cornerovun75.joblib')
             </a>
             <ul id="ui-toc" class="ui-toc-dropdown dropdown-menu" aria-labelledby="tocLabel">
                 <div class="toc"><ul class="nav">
-<li class=""><a href="#WiseGamble" title="WiseGamble">WiseGamble</a><ul class="nav">
-<li class=""><a href="#Introduzione" title="Introduzione">Introduzione</a></li>
+<li><a href="#WiseGamble" title="WiseGamble">WiseGamble</a><ul class="nav">
+<li><a href="#Indice" title="Indice">Indice</a></li>
+<li><a href="#Introduzione" title="Introduzione">Introduzione</a></li>
 <li><a href="#Business-Understanding" title="Business Understanding">Business Understanding</a></li>
 <li><a href="#Data-Understanding" title="Data Understanding">Data Understanding</a><ul class="nav">
 <li><a href="#Data-Collection" title="Data Collection">Data Collection</a></li>
@@ -705,43 +730,45 @@ dump(scaler, 'drive/My Drive/wiseGamble/model/scaler_cornerovun75.joblib')
             </ul>
         </div>
     </div>
-    <div id="ui-toc-affix" class="ui-affix-toc ui-toc-dropdown unselectable hidden-print" data-spy="affix" style="top:17px;display:none;" null null>
+    <div id="ui-toc-affix" class="ui-affix-toc ui-toc-dropdown unselectable hidden-print" data-spy="affix" style="top:82px;display:none;" null null>
         <div class="toc"><ul class="nav">
-<li class=""><a href="#WiseGamble" title="WiseGamble">WiseGamble</a><ul class="nav">
-<li class=""><a href="#Introduzione" title="Introduzione">Introduzione</a></li>
-<li class=""><a href="#Business-Understanding" title="Business Understanding">Business Understanding</a></li>
-<li class=""><a href="#Data-Understanding" title="Data Understanding">Data Understanding</a><ul class="nav">
-<li class=""><a href="#Data-Collection" title="Data Collection">Data Collection</a></li>
-<li class=""><a href="#Data-Analysis" title="Data Analysis">Data Analysis</a></li>
+<li><a href="#WiseGamble" title="WiseGamble">WiseGamble</a><ul class="nav">
+<li><a href="#Indice" title="Indice">Indice</a></li>
+<li><a href="#Introduzione" title="Introduzione">Introduzione</a></li>
+<li><a href="#Business-Understanding" title="Business Understanding">Business Understanding</a></li>
+<li><a href="#Data-Understanding" title="Data Understanding">Data Understanding</a><ul class="nav">
+<li><a href="#Data-Collection" title="Data Collection">Data Collection</a></li>
+<li><a href="#Data-Analysis" title="Data Analysis">Data Analysis</a></li>
 </ul>
 </li>
-<li class=""><a href="#Data-Preparation" title="Data Preparation">Data Preparation</a><ul class="nav">
-<li class=""><a href="#Data-Cleaning" title="Data Cleaning">Data Cleaning</a></li>
-<li class=""><a href="#Data-Scaling" title="Data Scaling">Data Scaling</a></li>
-<li class=""><a href="#Feature-Selection" title="Feature Selection">Feature Selection</a></li>
-<li class=""><a href="#Data-Balancing" title="Data Balancing">Data Balancing</a></li>
+<li><a href="#Data-Preparation" title="Data Preparation">Data Preparation</a><ul class="nav">
+<li><a href="#Data-Cleaning" title="Data Cleaning">Data Cleaning</a></li>
+<li><a href="#Data-Scaling" title="Data Scaling">Data Scaling</a></li>
+<li><a href="#Feature-Selection" title="Feature Selection">Feature Selection</a></li>
+<li><a href="#Data-Balancing" title="Data Balancing">Data Balancing</a></li>
 </ul>
 </li>
-<li class=""><a href="#Modeling" title="Modeling">Modeling</a><ul class="nav">
-<li class=""><a href="#Classificatori" title="Classificatori">Classificatori</a></li>
+<li><a href="#Modeling" title="Modeling">Modeling</a><ul class="nav">
+<li><a href="#Classificatori" title="Classificatori">Classificatori</a></li>
 </ul>
 </li>
-<li class=""><a href="#Evaluation" title="Evaluation">Evaluation</a><ul class="nav">
-<li class=""><a href="#Totali-cartellini-gialli-Over-55-Under-55" title="Totali cartellini gialli (Over 5.5/ Under 5.5)">Totali cartellini gialli (Over 5.5/ Under 5.5)</a></li>
-<li class=""><a href="#Accuracy-delle-restanti-predizioni" title="Accuracy delle restanti predizioni">Accuracy delle restanti predizioni</a></li>
+<li><a href="#Evaluation" title="Evaluation">Evaluation</a><ul class="nav">
+<li><a href="#Totali-cartellini-gialli-Over-55-Under-55" title="Totali cartellini gialli (Over 5.5/ Under 5.5)">Totali cartellini gialli (Over 5.5/ Under 5.5)</a></li>
+<li><a href="#Accuracy-delle-restanti-predizioni" title="Accuracy delle restanti predizioni">Accuracy delle restanti predizioni</a></li>
 </ul>
 </li>
-<li class=""><a href="#Deployment" title="Deployment">Deployment</a><ul class="nav">
-<li class=""><a href="#Ambiente" title="Ambiente">Ambiente</a></li>
-<li class=""><a href="#Esportazione-dei-modelli" title="Esportazione dei modelli">Esportazione dei modelli</a></li>
+<li><a href="#Deployment" title="Deployment">Deployment</a><ul class="nav">
+<li><a href="#Ambiente" title="Ambiente">Ambiente</a></li>
+<li><a href="#Esportazione-dei-modelli" title="Esportazione dei modelli">Esportazione dei modelli</a></li>
 </ul>
 </li>
-<li class=""><a href="#Conclusioni" title="Conclusioni">Conclusioni</a></li>
+<li><a href="#Conclusioni" title="Conclusioni">Conclusioni</a></li>
 </ul>
 </li>
 </ul>
 </div><div class="toc-menu"><a class="expand-toggle" href="#">Expand all</a><a class="back-to-top" href="#">Back to top</a><a class="go-to-bottom" href="#">Go to bottom</a></div>
     </div>
+</main>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gist-embed/2.6.0/gist-embed.min.js" integrity="sha256-KyF2D6xPIJUW5sUDSs93vWyZm+1RzIpKCexxElmxl8g=" crossorigin="anonymous" defer></script>
@@ -888,8 +915,5 @@ dump(scaler, 'drive/My Drive/wiseGamble/model/scaler_cornerovun75.joblib')
             }, 100, "linear");
         }
     </script>
-            </div>
-        </section>
-    </main>
-    <!-- End #main -->
+
 {% endblock %}
