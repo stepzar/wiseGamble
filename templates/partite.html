@@ -16,6 +16,12 @@
                     <div class="st-table">
                         <table style="width: 100%; line-height: 2">
                             <tbody>
+                                {% if not partite and league != "all"%}
+                                    <h3>Nessuna partita disponibile per questo campionato!<br>Prova con un altro ;)</h3>
+                                {% endif %}
+                                {% if not partite and league == "all" %}
+                                    <h3>Nessuna partita disponibile per questa data...</h3>
+                                {% endif %}
                                 {% for partita in partite %}
                                 <tr>
                                     <td class="left-team" style="text-align: center">
