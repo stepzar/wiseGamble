@@ -2,11 +2,11 @@
 
 # WiseGamble
 ### Pronostici calcistici
-WiseGamble è una web-app realizzata in python, tramite il framework **Flask**, che permette di ricevere pronostici calstici riguardanti due esiti in particolare:
+WiseGamble è una web-app realizzata in python, tramite il framework **Flask**, che permette di ricevere pronostici calcistici riguardanti due esiti in particolare:
 - Over/Under Cartellini Gialli 5.5
 - Over/Under Corner 7.5
 
-I pronostici vengono *calcolati* tramite due modelli di *Machine Learning* addestati su un dataset di 20.000+ partite.
+I pronostici vengono *calcolati* tramite due modelli di *Machine Learning* addestrati su un dataset di 20.000+ partite.
 Il dataset utilizzato per l'addestramento contiene le partite dal 2015 al 2021 dei seguenti campionati:
 - UEFA Champions League
 - UEFA Europa League
